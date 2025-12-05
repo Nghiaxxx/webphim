@@ -8,6 +8,11 @@ const pool = mysql.createPool({
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || undefined,
   database: process.env.DB_NAME || 'webphim',
+  port: process.env.DB_PORT || 3306,
+  // SSL configuration (required for PlanetScale and some cloud databases)
+  ssl: process.env.DB_SSL === 'true' ? {
+    rejectUnauthorized: true
+  } : undefined,
   waitForConnections: true,
   connectionLimit: 50,        // Tăng từ 10 → 50 connections
   queueLimit: 0,
