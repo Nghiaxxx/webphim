@@ -1,0 +1,16 @@
+/* Font Imports and Font Utilities */
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+
+/* Áp dụng font Anton cho tất cả các phần tử có class này */
+.font-anton-large {
+  font-family: 'Anton', sans-serif;
+  font-size: 24px; 
+  font-weight: 400; 
+  letter-spacing: 1px; 
+}
+
+h1.font-anton-large {
+  font-size: 40px;
+}
+

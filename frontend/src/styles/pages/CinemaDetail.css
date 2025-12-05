@@ -1,0 +1,1107 @@
+/* Cinema Detail Page Styles */
+
+.cinema-detail-main {
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Cinema Banner */
+.cinema-detail-banner {
+  background: #0F172A;
+  padding: 120px 0 0;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (max-width: 1200px) {
+  .cinema-detail-banner {
+    padding: 100px 0 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-banner {
+    padding: 80px 0 0;
+  }
+}
+
+.cinema-detail-banner-content {
+  padding-top: 17px;
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  height: 175px;
+  position: relative;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-banner-content {
+    flex-direction: column;
+    height: auto;
+    min-height: 350px;
+  }
+}
+
+/* Left side - Image (1/3) */
+.cinema-detail-banner-image {
+  flex: 0 0 33.333%;
+  position: relative;
+  overflow: hidden;
+  height: 175px;
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-banner-image {
+    flex: 0 0 100%;
+    height: 200px;
+  }
+}
+
+.cinema-detail-banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.cinema-detail-banner-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cinema-detail-banner-placeholder-icon {
+  font-size: 48px;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* Right side - Info (2/3) */
+.cinema-detail-banner-info {
+  flex: 0 0 66.666%;
+  background: linear-gradient(135deg, #331C5C 0%, #1e3a8a 100%);
+  padding: 0 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  height: 175px;
+}
+
+@media (max-width: 1200px) {
+  .cinema-detail-banner-info {
+    padding: 0 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-banner-info {
+    flex: 0 0 100%;
+    padding: 30px;
+    height: auto;
+    min-height: 150px;
+  }
+}
+
+.cinema-detail-banner-title {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 24px 0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+@media (max-width: 1200px) {
+  .cinema-detail-banner-title {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-banner-title {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+}
+
+.cinema-detail-banner-address {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 18px;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.6;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.cinema-detail-banner-icon {
+  color: #F3EA28;
+  font-size: 20px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-banner-address {
+    font-size: 16px;
+  }
+  
+  .cinema-detail-banner-icon {
+    font-size: 18px;
+  }
+}
+
+/* Navigation Bar */
+.cinema-detail-nav-bar {
+  background: #0F172A;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.cinema-detail-nav-container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0;
+  display: flex;
+  gap: 0;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.cinema-detail-nav-btn {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 24px 40px;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  position: relative;
+  border-bottom: 4px solid transparent;
+  flex: 1;
+  white-space: nowrap;
+}
+
+.cinema-detail-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #F3EA28;
+}
+
+.cinema-detail-nav-btn.active {
+  color: #F3EA28;
+  border-bottom-color: #F3EA28;
+  background: rgba(243, 234, 40, 0.05);
+}
+
+@media (max-width: 1200px) {
+  .cinema-detail-nav-btn {
+    font-size: 14px;
+    padding: 20px 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-nav-container {
+    flex-wrap: wrap;
+  }
+  
+  .cinema-detail-nav-btn {
+    font-size: 12px;
+    padding: 16px 16px;
+    flex: 1 1 50%;
+    min-width: 50%;
+  }
+}
+
+/* Special Showtimes Content */
+.cinema-detail-special-content {
+  min-height: calc(100vh - 300px);
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #0F172A 0%, #1a1a2e 50%, #16213e 100%);
+  position: relative;
+  width: 100%;
+  z-index: 10;
+  margin-top: 0;
+}
+
+.cinema-detail-special-title {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0 0 60px 0;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-special-title {
+    font-size: 32px;
+    margin-bottom: 40px;
+  }
+}
+
+.cinema-detail-special-video-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.cinema-detail-special-video-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.cinema-detail-special-video-frame {
+  width: 400px;
+  height: 250px;
+  border: 3px solid #ffffff;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-special-video-frame {
+    width: 300px;
+    height: 180px;
+  }
+}
+
+.cinema-detail-special-play-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-special-play-icon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .cinema-detail-special-play-icon svg {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.cinema-detail-special-progress-bar {
+  width: 400px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-special-progress-bar {
+    width: 300px;
+  }
+}
+
+.cinema-detail-special-progress-line {
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.cinema-detail-special-progress-dot {
+  width: 12px;
+  height: 12px;
+  background: #ffffff;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+.cinema-detail-special-updating {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #F3EA28;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-special-updating {
+    font-size: 18px;
+  }
+}
+
+/* Movies Section */
+.cinema-detail-movies {
+  padding: 60px 100px;
+  background: #0F172A;
+}
+
+@media (max-width: 1200px) {
+  .cinema-detail-movies {
+    padding: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-movies {
+    padding: 30px 20px;
+  }
+}
+
+.cinema-detail-movies-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cinema-detail-movies-title {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  margin: 0 0 50px 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-movies-title {
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+}
+
+.cinema-detail-movies-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+}
+
+@media (max-width: 968px) {
+  .cinema-detail-movies-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+
+.cinema-detail-loading,
+.cinema-detail-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #9ca3af;
+  font-size: 18px;
+}
+
+/* Movie Item */
+.cinema-detail-movie-item {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-movie-item {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+.cinema-detail-movie-poster {
+  flex-shrink: 0;
+  width: 312.51px;
+  height: 468.76px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.cinema-detail-movie-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.poster-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  color: #9ca3af;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-movie-poster {
+    width: 120px;
+    height: 180px;
+    margin: 0 auto;
+  }
+}
+
+.cinema-detail-movie-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cinema-detail-movie-header {
+  margin-bottom: 4px;
+}
+
+.cinema-detail-movie-title {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-movie-title {
+    font-size: 18px;
+  }
+}
+
+.cinema-detail-movie-release {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.cinema-detail-movie-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.cinema-detail-movie-genre,
+.cinema-detail-movie-duration,
+.cinema-detail-movie-country,
+.cinema-detail-movie-subtitle {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 13px;
+  color: #e5e7eb;
+  padding: 2px 8px;
+  background: transparent;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.cinema-detail-movie-subtitle i,
+.cinema-detail-movie-duration i {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.cinema-detail-movie-country .country-icon {
+  color: #615E10;
+  font-size: 11px;
+}
+
+.cinema-detail-movie-rating {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 2px solid;
+  display: inline-flex;
+  align-items: center;
+}
+
+.cinema-detail-movie-rating.rating-p {
+  color: #10b981;
+  border-color: #10b981;
+}
+
+.cinema-detail-movie-rating.rating-t13 {
+  color: #f59e0b;
+  border-color: #f59e0b;
+}
+
+.cinema-detail-movie-rating.rating-t16 {
+  color: #ef4444;
+  border-color: #ef4444;
+}
+
+.cinema-detail-movie-rating.rating-t18 {
+  color: #dc2626;
+  border-color: #dc2626;
+}
+
+.cinema-detail-movie-rating-desc {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 12px;
+  color: white;
+  margin: 0;
+  line-height: 1.5;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.cinema-detail-movie-rating-desc i {
+  font-size: 12px;
+  margin-top: 2px;
+  opacity: 0.8;
+}
+
+/* Date Selector Wrapper */
+.cinema-detail-date-selector-wrapper {
+  position: relative;
+  margin-top: 16px;
+  margin-bottom: 12px;
+}
+
+.cinema-detail-date-selector-btn {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #ffffff;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.cinema-detail-date-selector-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.cinema-detail-date-selector-text {
+  flex: 1;
+  text-align: left;
+}
+
+.cinema-detail-date-selector-btn i {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+}
+
+.cinema-detail-date-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 8px;
+  background: #1a1a2e;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 8px;
+  z-index: 10;
+  max-height: 300px;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.cinema-detail-date-option {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: #ffffff;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: all 0.2s ease;
+  margin-bottom: 4px;
+}
+
+.cinema-detail-date-option:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.cinema-detail-date-option.active {
+  background: rgba(243, 234, 40, 0.2);
+  color: #F3EA28;
+}
+
+.cinema-detail-date-option:last-child {
+  margin-bottom: 0;
+}
+
+/* Showtimes Box */
+.cinema-detail-showtimes-box {
+  border-radius: 8px;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cinema-detail-showtimes-box.expanded {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cinema-detail-showtimes-toggle {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 16px 20px;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+  text-transform: none;
+  letter-spacing: 0;
+  background: transparent;
+}
+
+
+.cinema-detail-showtimes-toggle i {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+}
+
+.cinema-detail-showtimes-box.expanded .cinema-detail-showtimes-toggle i {
+  transform: rotate(180deg);
+}
+
+
+.cinema-detail-showtimes-content {
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
+  background: transparent;
+}
+
+.cinema-detail-showtimes-box.expanded .cinema-detail-showtimes-content {
+  padding: 20px;
+  max-height: 1000px;
+  opacity: 1;
+}
+
+/* Showtimes */
+.cinema-detail-showtimes {
+  margin-top: 0;
+}
+
+.cinema-detail-no-showtimes {
+  padding: 20px 0;
+  text-align: center;
+}
+
+.cinema-detail-no-showtimes p {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.cinema-detail-showtime-group {
+  margin-bottom: 16px;
+}
+
+.cinema-detail-showtime-group:last-child {
+  margin-bottom: 0;
+}
+
+.cinema-detail-showtime-type {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cinema-detail-showtime-times {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cinema-detail-showtime-btn {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 16px;
+  border: 2px solid #F3EA28;
+  border-radius: 4px;
+  background: transparent;
+  color: #F3EA28;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 70px;
+  text-align: center;
+  position: relative;
+}
+
+.cinema-detail-showtime-btn:hover {
+  background: #F3EA28;
+  color: #1a1a2e;
+  transform: translateY(-1px);
+}
+
+.cinema-detail-showtime-btn.standard {
+  border-color: #F3EA28;
+  color: #F3EA28;
+}
+
+.cinema-detail-showtime-btn.standard:hover {
+  background: #F3EA28;
+  color: #1a1a2e;
+}
+
+.cinema-detail-showtime-btn.standard.selected {
+  background: #F3EA28;
+  color: #1a1a2e;
+  box-shadow: 0 2px 8px rgba(243, 234, 40, 0.3);
+}
+
+.cinema-detail-showtime-btn.deluxe {
+  border-color: #9333ea;
+  color: #9333ea;
+}
+
+.cinema-detail-showtime-btn.deluxe:hover {
+  background: #9333ea;
+  color: #ffffff;
+  border-color: #9333ea;
+}
+
+.cinema-detail-showtime-btn.deluxe.selected {
+  background: #9333ea;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(147, 51, 234, 0.3);
+}
+
+.cinema-detail-more-showtimes {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 13px;
+  color: #F3EA28;
+  text-decoration: underline;
+  margin-top: 12px;
+  display: inline-block;
+  transition: color 0.3s;
+  font-weight: 500;
+}
+
+.cinema-detail-more-showtimes:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+/* Coming Soon Message */
+.cinema-detail-coming-soon-message {
+  margin-top: 12px;
+  margin-bottom: 12px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.cinema-detail-coming-soon-message img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: brightness(0) invert(1);
+}
+
+.cinema-detail-coming-soon-message span {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* Promotions Section */
+.cinema-detail-promotions {
+  padding: 60px 100px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 1200px) {
+  .cinema-detail-promotions {
+    padding: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-promotions {
+    padding: 30px 20px;
+  }
+}
+
+.cinema-detail-promotions-action {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.cinema-detail-promotions-btn {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 14px 40px;
+  border: 2px solid #F3EA28;
+  border-radius: 8px;
+  background: transparent;
+  color: #F3EA28;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.cinema-detail-promotions-btn:hover {
+  background: #F3EA28;
+  color: #1a1a2e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(243, 234, 40, 0.3);
+}
+
+/* Map Section */
+.cinema-detail-map {
+  padding: 60px 100px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 1200px) {
+  .cinema-detail-map {
+    padding: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-map {
+    padding: 30px 20px;
+  }
+}
+
+.cinema-detail-map-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cinema-detail-map-title {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: #F3EA28;
+  margin: 0 0 30px 0;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-map-title {
+    font-size: 24px;
+  }
+}
+
+.cinema-detail-map-wrapper {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.cinema-detail-map-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.cinema-detail-map-link {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 32px;
+  border: 2px solid #F3EA28;
+  border-radius: 8px;
+  background: transparent;
+  color: #F3EA28;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.cinema-detail-map-link:hover {
+  background: #F3EA28;
+  color: #1a1a2e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(243, 234, 40, 0.3);
+}
+
+/* Price List Content */
+.cinema-detail-price-list-content {
+  min-height: calc(100vh - 300px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #0F172A 0%, #1a1a2e 50%, #16213e 100%);
+  position: relative;
+  width: 100%;
+  z-index: 10;
+  margin-top: 0;
+}
+
+.cinema-detail-price-list-title {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0 0 40px 0;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-price-list-title {
+    font-size: 32px;
+    margin-bottom: 30px;
+  }
+}
+
+.cinema-detail-price-list-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 40px;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 4px;
+  max-width: 600px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-price-list-tabs {
+    margin-bottom: 30px;
+    max-width: 100%;
+  }
+}
+
+.cinema-detail-price-list-tab {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 16px 40px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  position: relative;
+  flex: 1;
+  white-space: nowrap;
+  border-bottom: 4px solid transparent;
+}
+
+.cinema-detail-price-list-tab:hover {
+  color: #F3EA28;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.cinema-detail-price-list-tab.active {
+  color: #F3EA28;
+  border-bottom-color: #F3EA28;
+  background: rgba(243, 234, 40, 0.05);
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-price-list-tab {
+    font-size: 14px;
+    padding: 12px 20px;
+  }
+}
+
+.cinema-detail-price-list-image-container {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.cinema-detail-price-list-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+  .cinema-detail-price-list-image {
+    border-radius: 8px;
+  }
+}
+

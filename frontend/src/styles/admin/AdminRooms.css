@@ -1,0 +1,525 @@
+/* Admin Rooms Management Styles */
+
+.admin-no-rooms {
+  text-align: center;
+  padding: 3rem;
+  color: var(--admin-text-secondary);
+  font-size: 1.1rem;
+  background: var(--admin-bg-card);
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+}
+
+/* Rooms Grid */
+.admin-rooms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Room Card */
+.admin-room-card {
+  background: linear-gradient(135deg, var(--admin-bg-card) 0%, #1f1f1f 100%);
+  border: 1px solid var(--admin-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-room-card:hover {
+  background: linear-gradient(135deg, var(--admin-bg-hover) 0%, #252525 100%);
+  border-color: var(--admin-gold);
+  transform: translateY(-4px);
+  box-shadow: var(--admin-shadow-lg);
+}
+
+.admin-room-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-room-card-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--admin-text-primary);
+  background: linear-gradient(135deg, var(--admin-gold) 0%, var(--admin-gold-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.admin-room-cinema {
+  font-size: 0.85rem;
+  color: var(--admin-text-secondary);
+  background: var(--admin-bg-dark);
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  display: inline-block;
+  width: fit-content;
+}
+
+.admin-room-card-body {
+  flex: 1;
+}
+
+.admin-room-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-room-id {
+  font-size: 0.9rem;
+  color: var(--admin-text-secondary);
+  font-weight: 500;
+}
+
+.admin-room-date {
+  font-size: 0.85rem;
+  color: var(--admin-text-muted);
+}
+
+.admin-room-card-actions {
+  margin-top: auto;
+}
+
+.admin-room-card-actions .primary-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Showtimes Display */
+.admin-room-showtimes {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--admin-border);
+}
+
+.admin-showtimes-label {
+  font-size: 0.85rem;
+  color: var(--admin-text-secondary);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.admin-showtimes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-showtime-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  background: var(--admin-bg-dark);
+  border: 1px solid var(--admin-border);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.admin-showtime-item:hover {
+  background: var(--admin-bg-hover);
+  border-color: var(--admin-gold);
+}
+
+.admin-movie-title {
+  font-size: 0.9rem;
+  color: var(--admin-text-primary);
+  font-weight: 500;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 0.5rem;
+}
+
+.admin-showtime-time {
+  font-size: 0.85rem;
+  color: var(--admin-gold);
+  font-weight: 600;
+  white-space: nowrap;
+  padding: 0.25rem 0.5rem;
+  background: rgba(212, 175, 55, 0.1);
+  border-radius: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.admin-room-no-showtimes {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--admin-border);
+}
+
+.admin-no-showtimes-text {
+  font-size: 0.85rem;
+  color: var(--admin-text-muted);
+  font-style: italic;
+}
+
+/* Layout Modal */
+.admin-room-layout-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  overflow-y: auto;
+  backdrop-filter: blur(10px);
+}
+
+.admin-modal-content {
+  background: linear-gradient(135deg, var(--admin-bg-card) 0%, #1f1f1f 100%);
+  border-radius: 20px;
+  max-width: 1000px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 1px solid var(--admin-border);
+  box-shadow: var(--admin-shadow-lg);
+}
+
+.admin-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--admin-border);
+  gap: 1rem;
+}
+
+.admin-modal-header-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.admin-modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--admin-text-primary);
+  background: linear-gradient(135deg, var(--admin-gold) 0%, var(--admin-gold-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.admin-modal-movies {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-modal-movies-label {
+  font-size: 0.85rem;
+  color: var(--admin-text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.admin-modal-movies-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.admin-modal-movie-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  background: var(--admin-bg-dark);
+  border: 1px solid var(--admin-border);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: var(--admin-text-primary);
+  font-weight: 500;
+}
+
+.admin-modal-movie-time {
+  font-size: 0.85rem;
+  color: var(--admin-gold);
+  font-weight: 600;
+}
+
+.admin-modal-close {
+  background: transparent;
+  border: none;
+  color: var(--admin-text-primary);
+  font-size: 1.75rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.admin-modal-close:hover {
+  background: var(--admin-bg-hover);
+  color: var(--admin-red);
+  transform: rotate(90deg);
+}
+
+.admin-modal-body {
+  padding: 2rem;
+}
+
+.admin-loading-layout,
+.admin-no-layout {
+  text-align: center;
+  padding: 3rem;
+  color: var(--admin-text-secondary);
+  font-size: 1.1rem;
+}
+
+/* Room Layout Display */
+.admin-room-layout {
+  text-align: center;
+}
+
+.admin-cinema-screen {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, var(--admin-bg-dark) 0%, var(--admin-bg-card) 100%);
+  border: 2px solid var(--admin-gold);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
+}
+
+.admin-screen-label {
+  color: var(--admin-gold);
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+.admin-seats-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: var(--admin-bg-dark);
+  border-radius: 12px;
+  border: 1px solid var(--admin-border);
+}
+
+.admin-seat-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.admin-row-label {
+  font-weight: 700;
+  color: var(--admin-text-primary);
+  min-width: 30px;
+  text-align: center;
+  font-size: 1rem;
+  background: var(--admin-bg-card);
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--admin-border);
+}
+
+.admin-seats-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.admin-seat {
+  width: 36px;
+  height: 36px;
+  background: var(--admin-bg-card);
+  border: 2px solid var(--admin-border);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: var(--admin-text-secondary);
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.admin-seat:hover {
+  border-color: var(--admin-gold);
+  background: var(--admin-bg-hover);
+  transform: scale(1.1);
+}
+
+.admin-seat-vip {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.1) 100%);
+  border-color: var(--admin-gold);
+  color: var(--admin-gold);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.admin-seat-row.has-middle {
+  position: relative;
+}
+
+.admin-seat-row.has-middle::after {
+  content: 'VIP';
+  position: absolute;
+  right: -50px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.75rem;
+  color: var(--admin-gold);
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+.admin-layout-stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, var(--admin-bg-card) 0%, var(--admin-bg-dark) 100%);
+  border-radius: 12px;
+  margin-top: 1.5rem;
+  border: 1px solid var(--admin-border);
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.admin-stat-item {
+  text-align: center;
+  color: var(--admin-text-primary);
+  padding: 0.5rem 1rem;
+  background: var(--admin-bg-dark);
+  border-radius: 8px;
+  border: 1px solid var(--admin-border);
+  min-width: 150px;
+}
+
+.admin-stat-item strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--admin-gold);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.admin-stat-item span {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--admin-text-primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-rooms-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-modal-content {
+    max-width: 100%;
+    margin: 1rem;
+    max-height: 95vh;
+  }
+
+  .admin-modal-header {
+    padding: 1rem 1.5rem;
+  }
+
+  .admin-modal-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .admin-modal-body {
+    padding: 1.5rem 1rem;
+  }
+
+  .admin-seats-row {
+    gap: 0.35rem;
+  }
+
+  .admin-seat {
+    width: 28px;
+    height: 28px;
+    font-size: 0.65rem;
+  }
+
+  .admin-row-label {
+    min-width: 25px;
+    font-size: 0.9rem;
+    padding: 0.35rem;
+  }
+
+  .admin-seat-row {
+    gap: 0.5rem;
+  }
+
+  .admin-seat-row.has-middle::after {
+    display: none;
+  }
+
+  .admin-layout-stats {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .admin-stat-item {
+    width: 100%;
+  }
+
+  .admin-cinema-screen {
+    padding: 1rem;
+  }
+
+  .admin-screen-label {
+    font-size: 1rem;
+    letter-spacing: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-room-layout-modal {
+    padding: 1rem;
+  }
+
+  .admin-seat {
+    width: 24px;
+    height: 24px;
+    font-size: 0.6rem;
+  }
+
+  .admin-seats-row {
+    gap: 0.25rem;
+  }
+}
+

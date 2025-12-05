@@ -1,0 +1,195 @@
+import React, { useState, useMemo, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../contexts/LanguageContext';
+import { getTranslation } from '../utils/translations';
+import MovieCard from './MovieCard';
+
+// Hàm trích xuất YouTube ID - moved outside component to avoid recreation
+const extractYouTubeId = (url) => {
+    if (!url) return null;
+    const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i;
+    const match = url.match(regex);
+    return match && match[1].length === 11 ? match[1] : null;
+};
+
+function MovieSlideshow({ movies, title }) {
+    const { language } = useLanguage();
+    const t = useCallback((key) => getTranslation(key, language), [language]);
+    const navigate = useNavigate();
+    const [currentPage, setCurrentPage] = useState(0);
+    const moviesPerPage = 4;
+    const totalPages = useMemo(() => Math.ceil(movies.length / moviesPerPage), [movies.length, moviesPerPage]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentTrailerId, setCurrentTrailerId] = useState(null);
+
+    // Hàm mở Modal và đặt ID video
+    const openTrailerModal = useCallback((trailerUrl) => {
+        const videoId = extractYouTubeId(trailerUrl); 
+        if (videoId) {
+            setCurrentTrailerId(videoId);
+            setIsModalOpen(true);
+        } else {
+            console.warn("Lỗi: Không tìm thấy ID video hợp lệ hoặc trailerUrl bị thiếu.");
+        }
+    }, []);
+
+    // Hàm đóng Modal
+    const closeTrailerModal = useCallback(() => {
+        setIsModalOpen(false);
+        setCurrentTrailerId(null);
+    }, []);
+
+    const goToPage = useCallback((page) => {
+        if (page < 0 || page >= totalPages) return;
+        setCurrentPage(page);
+    }, [totalPages]);
+
+    const goToPrev = useCallback(() => {
+        goToPage(currentPage - 1);
+    }, [currentPage, goToPage]);
+
+    const goToNext = useCallback(() => {
+        goToPage(currentPage + 1);
+    }, [currentPage, goToPage]);
+
+
+    if (movies.length === 0) {
+        return null;
+    }
+
+    return (
+        <div className="movie-slideshow-container">
+            {title && (
+                <div className="section-header">
+                    <h2>{title}</h2>
+                </div>
+            )}
+            
+            <div className="movie-slideshow-wrapper">
+                <button
+                    className={`movie-slideshow-btn movie-slideshow-btn-prev ${currentPage === 0 ? 'disabled' : ''}`}
+                    onClick={goToPrev}
+                    disabled={currentPage === 0}
+                    aria-label="Previous movies"
+                >
+                    ‹
+                </button>
+                
+                <div className="movie-slideshow">
+                    <div 
+                        className="movie-slideshow-content"
+                        style={{
+                            transform: `translateX(-${currentPage * (280 * moviesPerPage + 24 * (moviesPerPage - 1))}px)`,
+                            transition: 'transform 0.5s ease'
+                        }}
+                    >
+                        {movies.map((movie) => (
+                            <div key={movie.id} className="movie-slideshow-item">
+                                <MovieCard movie={movie} />
+                                <div className="movie-actions">
+                                    
+                                    {/* NÚT XEM TRAILER (Áp dụng hàm mở Modal) */}
+                                    <button 
+                                        className="movie-btn-outline movie-trailer-btn"
+                                        onClick={() => openTrailerModal(movie.trailer_url)}>
+                                        <img src="https://cinestar.com.vn/assets/images/icon-play-vid.svg" alt="" />
+                                        <span className="trailer-text">{t('common.trailer')}</span> 
+                                    </button>
+                                    
+                                    {/* NÚT HÀNH ĐỘNG CHÍNH */}
+                                    {movie.status === 'coming_soon' ? (
+                                        /* PHIM SẮP CHIẾU: Style màu vàng (movie-btn) */
+                                        <button className="cssbuttons-io"><span>{t('movieSlideshow.learnMore')}</span>
+                                            
+                                        </button>
+                                    ) : (
+                                        /* PHIM ĐANG CHIẾU: Style màu vàng */
+                                        <button 
+                                            className="cssbuttons-io"
+                                            onClick={() => navigate(`/movie/${movie.id}`)}>
+                                            <span>{t('movieSlideshow.bookTicket')}</span>
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                
+                <button
+                    className={`movie-slideshow-btn movie-slideshow-btn-next ${currentPage >= totalPages - 1 ? 'disabled' : ''}`}
+                    onClick={goToNext}
+                    disabled={currentPage >= totalPages - 1}
+                    aria-label="Next movies"
+                >
+                    ›
+                </button>
+            </div>
+
+            {/* Pagination dots */}
+            {totalPages > 1 && (
+                <div className="movie-slideshow-pagination">
+                    {Array.from({ length: totalPages }).map((_, index) => (
+                        <button
+                            key={index}
+                            className={`movie-slideshow-dot ${index === currentPage ? 'active' : ''}`}
+                            onClick={() => goToPage(index)}
+                            aria-label={`Go to page ${index + 1}`}
+                        />
+                    ))}
+                </div>
+            )}
+
+            {/* XEM THÊM button */}
+            {movies.length > moviesPerPage && title && (
+                <div className="movie-slideshow-more">
+                    <button 
+                        className="movie-slideshow-more-btn"
+                        onClick={() => {
+                            // Nếu title là "Phim đang chiếu" thì navigate đến /movie/showing
+                            if (title === t('home.nowShowing')) {
+                                navigate('/movie/showing');
+                            }
+                            // Nếu title là "Phim sắp chiếu" thì navigate đến /movie/upcoming
+                            else if (title === t('home.comingSoon')) {
+                                navigate('/movie/upcoming');
+                            }
+                        }}
+                    >
+                        {t('movieSlideshow.seeMore')}
+                    </button>
+                </div>
+            )}
+            
+            {isModalOpen && currentTrailerId && (
+                <div className="trailer-modal-overlay" onClick={closeTrailerModal}>
+                    {/* Ngăn chặn việc click vào video làm đóng modal */}
+                    <div className="trailer-modal-content" onClick={(e) => e.stopPropagation()}>
+                        
+                        {/* Tiêu đề modal */}
+                        <div className="trailer-modal-header">
+                            {/* Cần kiểm tra nếu movie.trailer_url tồn tại trước khi dùng find */}
+                            <h3>{movies.find(m => m.trailer_url && extractYouTubeId(m.trailer_url) === currentTrailerId)?.title || "Trailer Phim"}</h3>
+                            <button className="close-modal-btn" onClick={closeTrailerModal}>×</button>
+                        </div>
+
+                        {/* Iframe nhúng YouTube */}
+                        <div className="trailer-video-wrapper">
+                            <iframe
+                                title="Movie Trailer"
+                                src={`https://www.youtube.com/embed/${currentTrailerId}?autoplay=1&rel=0`} 
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowFullScreen
+                            ></iframe>
+                        </div>
+                    </div>
+                </div>
+            )}
+            
+        </div>
+    );
+}
+
+export default React.memo(MovieSlideshow);
+

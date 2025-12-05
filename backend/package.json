@@ -1,0 +1,25 @@
+{
+  "name": "webphim-backend",
+  "version": "1.0.0",
+  "description": "Backend dat ve xem phim (Node.js + Express + MySQL)",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "setup-db": "node scripts/setup-database.js",
+    "setup-db:migration": "node scripts/setup-database.js --migration",
+    "cleanup-rooms": "node scripts/cleanup-rooms-without-layout.js",
+    "setup-room-layouts": "node scripts/auto-setup-room-layouts.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.11.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}

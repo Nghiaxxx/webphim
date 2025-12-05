@@ -1,0 +1,814 @@
+/* Showtimes Page Styles */
+
+.showtimes-main {
+  min-height: 100vh;
+  padding: 0;
+  position: relative;
+  background: #0F172A;
+}
+
+/* Navigation Tabs */
+.showtimes-nav-tabs {
+  background: #0F172A;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  margin-top: 120px;
+}
+
+.showtimes-nav-container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0;
+  display: flex;
+  gap: 0;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.showtimes-nav-btn {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 24px 40px;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  position: relative;
+  border-bottom: 4px solid transparent;
+  flex: 1;
+  white-space: nowrap;
+}
+
+.showtimes-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #F3EA28;
+}
+
+.showtimes-nav-btn.active {
+  color: #F3EA28;
+  border-bottom-color: #F3EA28;
+  background: rgba(243, 234, 40, 0.05);
+}
+
+@media (max-width: 1200px) {
+  .showtimes-nav-btn {
+    font-size: 14px;
+    padding: 20px 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .showtimes-nav-container {
+    flex-wrap: wrap;
+  }
+  
+  .showtimes-nav-btn {
+    font-size: 12px;
+    padding: 16px 16px;
+    flex: 1 1 50%;
+  }
+}
+
+/* Special Showtimes Content */
+.showtimes-special-content {
+  min-height: calc(100vh - 300px);
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #0F172A 0%, #1a1a2e 50%, #16213e 100%);
+  position: relative;
+  width: 100%;
+  z-index: 10;
+  margin-top: 0;
+}
+
+.showtimes-special-title {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0 0 60px 0;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .showtimes-special-title {
+    font-size: 32px;
+    margin-bottom: 40px;
+  }
+}
+
+.showtimes-special-video-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.showtimes-special-video-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.showtimes-special-video-frame {
+  width: 400px;
+  height: 250px;
+  border: 3px solid #ffffff;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .showtimes-special-video-frame {
+    width: 300px;
+    height: 180px;
+  }
+}
+
+.showtimes-special-play-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .showtimes-special-play-icon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .showtimes-special-play-icon svg {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.showtimes-special-progress-bar {
+  width: 400px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .showtimes-special-progress-bar {
+    width: 300px;
+  }
+}
+
+.showtimes-special-progress-line {
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.showtimes-special-progress-dot {
+  width: 12px;
+  height: 12px;
+  background: #ffffff;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+.showtimes-special-updating {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #F3EA28;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .showtimes-special-updating {
+    font-size: 18px;
+  }
+}
+
+/* Filters Section */
+.showtimes-filters {
+  padding: 200px 0 100px;
+  background: #0F172A;
+}
+
+@media (max-width: 1200px) {
+  .showtimes-filters {
+    padding: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .showtimes-filters {
+    padding: 20px;
+  }
+}
+
+.showtimes-filters-container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 200px;
+  position: relative;
+}
+
+.filter-label {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #F3EA28; /* Yellow color */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.filter-icon {
+  font-size: 18px;
+  color: #F3EA28;
+}
+
+.filter-select {
+  font-family: 'Josefin Sans', sans-serif;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 100%;
+  padding: 12px 40px 12px 16px;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  color: #1a1a2e;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  position: relative;
+  min-height: 44px;
+  box-sizing: border-box;
+  display: block;
+}
+
+.filter-select:hover:not(:disabled) {
+  background-color: #ffffff;
+  color: #1a1a2e;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.filter-select:focus {
+  outline: none;
+  background-color: #ffffff;
+  color: #1a1a2e;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.filter-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #f3f4f6;
+}
+
+.filter-select option {
+  background-color: #ffffff;
+  color: #1a1a2e;
+  padding: 10px;
+}
+
+/* Custom dropdown arrow */
+.filter-item::after {
+  content: '';
+  position: absolute;
+  bottom: 18px;
+  right: 16px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #1a1a2e;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.filter-select:disabled ~ .filter-item::after,
+.filter-item:has(.filter-select:disabled)::after {
+  border-top-color: #9ca3af;
+}
+
+/* Separator Line */
+.showtimes-separator {
+  width: 1200px;
+  height: 1px;
+  background-color: #60616F;
+  margin-left: 170px;
+}
+
+/* Content Section */
+.showtimes-content {
+  margin-bottom: 60px;
+  padding: 0 100px;
+}
+
+@media (max-width: 1200px) {
+  .showtimes-content {
+    padding: 0 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .showtimes-content {
+    padding: 0 20px;
+  }
+}
+
+.showtimes-loading,
+.showtimes-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #9ca3af;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 18px;
+}
+
+/* Movies List */
+.showtimes-movies-list {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.showtimes-movie-item {
+  display: grid;
+  grid-template-columns: 384px 1fr;
+  gap: 40px;
+  padding: 30px 65px;
+  padding-bottom: 40px;
+  background: transparent;
+  border: none;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.showtimes-movie-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 60px;
+  width: 1200px;
+  height: 1px;
+  background-color: #60616F;
+}
+
+.showtimes-movie-item:last-child::after {
+  display: none;
+}
+
+.showtimes-movie-item:last-child {
+  padding-bottom: 30px;
+}
+
+@media (max-width: 968px) {
+  .showtimes-movie-item {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+
+/* Movie Info (Left Side) */
+.showtimes-movie-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.showtimes-movie-poster {
+  width: 384px;
+  height: 607px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #3b82f6; /* Bright blue background like in image */
+  position: relative;
+}
+
+.showtimes-movie-poster img {
+  width: 384px;
+  height: 607px;
+  object-fit: cover;
+}
+
+.poster-placeholder {
+  width: 384px;
+  height: 607px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Anton', sans-serif;
+  font-size: 48px;
+  color: #F3EA28;
+  background: #3b82f6;
+}
+
+.showtimes-movie-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.showtimes-movie-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: white; /* Yellow title */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.showtimes-movie-rating {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-family: 'Anton', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: #ffffff;
+  width: fit-content;
+}
+
+.showtimes-movie-rating.rating-p {
+  background-color: #10b981;
+}
+
+.showtimes-movie-rating.rating-c {
+  background-color: #3b82f6;
+}
+
+.showtimes-movie-rating.rating-t13 {
+  background-color: #f59e0b;
+}
+
+.showtimes-movie-rating.rating-t16 {
+  background-color: #ef4444;
+}
+
+.showtimes-movie-rating.rating-t18 {
+  background-color: #dc2626;
+}
+
+.showtimes-movie-rating.rating-k {
+  background-color: #8b5cf6;
+}
+
+.showtimes-movie-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.showtimes-movie-meta-item {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #e5e7eb;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.showtimes-meta-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.showtimes-meta-icon.fa-solid {
+  font-size: 16px;
+  color: #e5e7eb;
+}
+
+.showtimes-meta-icon.fa-solid.fa-earth-americas {
+  color: #F3EA28 !important;
+}
+
+.showtimes-movie-rating-note {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #9ca3af;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+/* Cinemas List (Right Side) */
+.showtimes-cinemas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.showtimes-no-cinemas {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 16px;
+  color: #9ca3af;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.showtimes-cinema-group {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 40px;
+  padding-bottom: 24px;
+  position: relative;
+  align-items: flex-start;
+}
+
+.showtimes-cinema-group::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 60px;
+  width: 1200px;
+  height: 1px;
+  background-color: #60616F;
+}
+
+.showtimes-cinema-group:last-child::after {
+  display: none;
+}
+
+.showtimes-cinema-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.showtimes-cinema-name {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+.showtimes-cinema-address {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: white;
+  line-height: 1.5;
+}
+
+.showtimes-times-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.showtimes-type-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.showtimes-type-label {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.showtimes-times-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.showtimes-time-btn {
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  color: #e5e7eb;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+}
+/* STANDARD button - yellow border */
+.showtimes-time-btn.showtimes-time-standard {
+  border: 1px solid #F3EA28; /* Yellow border */
+  color: #F3EA28;
+}
+
+/* DELUXE button - dark border */
+.showtimes-time-btn.showtimes-time-deluxe {
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Dark border */
+  color: #e5e7eb;
+}
+
+.showtimes-time-btn.showtimes-time-deluxe:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+}
+
+.showtimes-time-type {
+  font-size: 12px;
+  font-weight: 400;
+  opacity: 0.9;
+  text-transform: uppercase;
+}
+
+.showtimes-time-text {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* View All Button */
+.showtimes-view-all {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  padding-top: 40px;
+  position: relative;
+}
+
+.showtimes-view-all::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 60px;
+  width: 1200px;
+  height: 1px;
+  background-color: #60616F;
+}
+
+.showtimes-view-all-btn {
+  padding: 14px 40px;
+  background: #F3EA28;
+  border: none;
+  border-radius: 8px;
+  color: #1a1a2e;
+  font-family: 'Anton', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.showtimes-view-all-btn:hover {
+  background: #e6d825;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(243, 234, 40, 0.4);
+}
+
+.showtimes-view-all-btn:active {
+  transform: translateY(0);
+}
+
+/* Carousel Section */
+.showtimes-carousel-section {
+  margin-top: 20px;
+  padding: 0 100px;
+  padding-top: 0;
+  position: relative;
+}
+
+@media (max-width: 1200px) {
+  .showtimes-carousel-section {
+    padding: 0 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .showtimes-carousel-section {
+    padding: 0 20px;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .showtimes-filters-container {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .filter-item {
+    min-width: 100%;
+  }
+
+  .showtimes-movie-item {
+    padding: 20px;
+  }
+
+  .showtimes-movie-title {
+    font-size: 24px;
+  }
+
+  .showtimes-cinema-group {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .showtimes-cinema-name {
+    font-size: 20px;
+  }
+
+  .showtimes-cinema-address {
+    font-size: 14px;
+  }
+
+  .showtimes-time-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    min-width: 70px;
+  }
+
+  .showtimes-view-all-btn {
+    padding: 12px 30px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .showtimes-main {
+    padding: 15px;
+  }
+
+  .showtimes-movie-item {
+    padding: 15px;
+    gap: 20px;
+  }
+
+  .showtimes-times-grid {
+    gap: 8px;
+  }
+
+  .showtimes-time-btn {
+    padding: 8px 12px;
+    min-width: 60px;
+  }
+
+  .showtimes-view-all-btn {
+    padding: 10px 24px;
+    font-size: 16px;
+  }
+}

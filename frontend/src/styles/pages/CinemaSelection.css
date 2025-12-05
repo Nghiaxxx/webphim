@@ -1,0 +1,205 @@
+/* Cinema Selection Page Styles */
+
+.cinema-selection-main {
+  min-height: 100vh;
+  padding: 150px 100px 80px;
+  position: relative;
+}
+
+@media (max-width: 1200px) {
+  .cinema-selection-main {
+    padding: 150px 40px 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cinema-selection-main {
+    padding: 120px 20px 40px;
+  }
+}
+
+.cinema-selection-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cinema-selection-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 48px;
+  font-weight: 400;
+  color: #F3EA28;
+  text-align: center;
+  margin-bottom: 40px;
+  letter-spacing: 2px;
+}
+
+@media (max-width: 768px) {
+  .cinema-selection-title {
+    font-size: 32px;
+  }
+}
+
+/* Search Bar */
+.cinema-selection-search {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto 50px;
+}
+
+.cinema-selection-search-input {
+  width: 100%;
+  padding: 16px 50px 16px 20px;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 16px;
+  color: #1a1a2e;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.cinema-selection-search-input:focus {
+  border-color: #F3EA28;
+}
+
+.cinema-selection-search-icon {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+  font-size: 18px;
+}
+
+/* Loading State */
+.cinema-selection-loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: #9ca3af;
+  font-size: 18px;
+}
+
+/* Empty State */
+.cinema-selection-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #9ca3af;
+  font-size: 18px;
+}
+
+/* City Groups */
+.cinema-selection-list {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.cinema-selection-city-group {
+  margin-bottom: 40px;
+}
+
+.cinema-selection-city-title {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: #F3EA28;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+  .cinema-selection-city-title {
+    font-size: 22px;
+  }
+}
+
+/* Cinemas Grid */
+.cinema-selection-cinemas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .cinema-selection-cinemas-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+/* Cinema Card */
+.cinema-selection-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.cinema-selection-card:hover {
+  transform: translateY(-4px);
+  border-color: #F3EA28;
+  box-shadow: 0 8px 24px rgba(243, 234, 40, 0.2);
+}
+
+.cinema-selection-card-header {
+  margin-bottom: 16px;
+}
+
+.cinema-selection-card-name {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.cinema-selection-card-body {
+  margin-bottom: 16px;
+}
+
+.cinema-selection-card-address,
+.cinema-selection-card-phone {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  color: #9ca3af;
+  margin: 8px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.5;
+}
+
+.cinema-selection-card-address i,
+.cinema-selection-card-phone i {
+  color: #F3EA28;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.cinema-selection-card-footer {
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cinema-selection-card-link {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #F3EA28;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: gap 0.3s;
+}
+
+.cinema-selection-card:hover .cinema-selection-card-link {
+  gap: 12px;
+}
+

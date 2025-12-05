@@ -1,0 +1,93 @@
+/* CSS Reset and Base Styles */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+  /* 1. Nền Chính Tối */
+  background-color: #0F172A; 
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden; 
+  margin: 0;
+}
+
+/* 2. Blob Góc (Ví dụ: Góc trên bên trái) */
+body::before {
+  content: '';
+  position: absolute;
+  top: 600px; 
+  left:  280px;
+  width: 900px;
+  height: 1000px;
+  background-color: #444492; /* Tím Xanh Navy */
+  border-radius: 100%;
+  filter: blur(160px); /* Làm mờ cực mạnh */
+  opacity: 0.3; /* Độ mờ vừa phải */
+  z-index: -1; 
+}
+
+@media (max-width: 1200px) {
+  body::before {
+    width: 600px;
+    height: 700px;
+    left: 100px;
+    top: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  body::before {
+    width: 400px;
+    height: 500px;
+    left: 50px;
+    top: 300px;
+    opacity: 0.2;
+  }
+}
+
+.main-content-wrapper {
+  position: relative;
+  z-index: 10; 
+}
+
+.main-content-wrapper::before { 
+  content: '';
+  position: absolute;
+  top: -1110px;
+  left: 0%; 
+  transform: translateX(-50%);
+  width: 900px;
+  height: 400px;
+  background-color: #331C5C;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.4; 
+  z-index: -1;
+}
+
+@media (max-width: 1200px) {
+  .main-content-wrapper::before {
+    width: 600px;
+    height: 300px;
+    top: -800px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content-wrapper::before {
+    width: 400px;
+    height: 200px;
+    top: -600px;
+    opacity: 0.3;
+  }
+}
+
+.app-root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+

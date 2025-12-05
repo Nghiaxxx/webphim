@@ -1,0 +1,91 @@
+// ./components/PromoSlideshow.jsx
+
+import React, { useState } from 'react';
+
+function PromoSlideshow({ promotions, title }) {
+    // 1. LOGIC SLIDESHOW
+    const [currentPage, setCurrentPage] = useState(0);
+    
+    // ✅ ĐÃ CHỈNH: Chỉ hiển thị 3 item trên mỗi trang
+    const itemsPerPage = 3; 
+    const totalPages = Math.ceil(promotions.length / itemsPerPage);
+
+    // ✅ ĐÃ CHỈNH: Giá trị tính toán cho việc trượt
+    // Giả định: Item rộng 260px, Khoảng cách 20px (Phải khớp với CSS)
+    const itemWidth = 260; 
+    const itemGap = 20;
+
+    const goToPage = (page) => {
+        if (page >= 0 && page < totalPages) {
+            setCurrentPage(page);
+        }
+    };
+    const goToPrev = () => goToPage(currentPage - 1);
+    const goToNext = () => goToPage(currentPage + 1);
+    
+    if (promotions.length === 0) {
+        return null; 
+    }
+    
+    // Tính toán độ dịch chuyển (offset)
+    // Công thức: currentPage * (itemWidth * itemsPerPage + itemGap * (itemsPerPage - 1))
+    const offset = currentPage * (itemWidth * itemsPerPage + itemGap * (itemsPerPage - 1));
+
+    return (
+        <div className="promo-slideshow-container">
+            {title && (
+                <div className="section-header">
+                    <h2 className="promo-title">{title}</h2>
+                </div>
+            )}
+            
+            <div className="promo-slideshow-wrapper">
+                {/* Nút Previous */}
+                <button
+                    className={`promo-slideshow-btn promo-slideshow-btn-prev ${currentPage === 0 ? 'disabled' : ''}`}
+                    onClick={goToPrev}
+                    disabled={currentPage === 0}
+                > ‹ </button>
+                
+                <div className="promo-slideshow">
+                    <div 
+                        className="promo-slideshow-content"
+                        style={{
+                            // ✅ ĐÃ CHỈNH: Sử dụng biến offset mới
+                            transform: `translateX(-${offset}px)`,
+                            transition: 'transform 0.5s ease'
+                        }}
+                    >
+                        {promotions.map((promo) => (
+                            <a 
+                                key={promo.id} 
+                                href={`/khuyen-mai/${promo.slug}`} 
+                                className="promo-slideshow-item"
+                            >
+                                <div className="promo-card">
+                                    <img src={promo.image_url} alt={promo.title || "Khuyến mãi"} /> 
+                                </div>
+                            </a>
+                        ))}
+                    </div>
+                </div>
+                
+                {/* Nút Next */}
+                <button
+                    className={`promo-slideshow-btn promo-slideshow-btn-next ${currentPage >= totalPages - 1 ? 'disabled' : ''}`}
+                    onClick={goToNext}
+                    disabled={currentPage >= totalPages - 1}
+                > › </button>
+            </div>
+
+            {/* Pagination dots (Tùy chọn) */}
+            {totalPages > 1 && (
+                <div className="movie-slideshow-pagination">
+                    {/* Logic dots */}
+                </div>
+            )}
+        </div>
+ );
+}
+
+export default PromoSlideshow;
