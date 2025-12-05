@@ -67,6 +67,11 @@ app.get('/', (req, res) => {
   res.json({ message: 'WebPhim API running' });
 });
 
+// API root endpoint
+app.get('/api', (req, res) => {
+  res.json({ message: 'WebPhim API running' });
+});
+
 // Error handler middleware (must be last)
 app.use(errorHandler);
 
