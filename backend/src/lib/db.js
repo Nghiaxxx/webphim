@@ -9,9 +9,10 @@ const pool = mysql.createPool({
   password: process.env.DB_PASSWORD || undefined,
   database: process.env.DB_NAME || 'webphim',
   port: process.env.DB_PORT || 3306,
-  // SSL configuration (required for PlanetScale and some cloud databases)
+  // SSL configuration (required for Aiven, PlanetScale and some cloud databases)
+  // For Aiven, we need to accept self-signed certificates
   ssl: process.env.DB_SSL === 'true' ? {
-    rejectUnauthorized: true
+    rejectUnauthorized: false  // Accept self-signed certificates (Aiven uses self-signed)
   } : undefined,
   waitForConnections: true,
   connectionLimit: 50,        // Tăng từ 10 → 50 connections
