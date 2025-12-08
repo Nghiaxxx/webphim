@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Loading from '../../components/common/Loading';
 import Error from '../../components/common/Error';
 import { adminAPI } from '../../services/api';
 import '../../styles/admin/AdminRooms.css';
 
 const AdminRooms = () => {
+  const navigate = useNavigate();
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,28 +17,23 @@ const AdminRooms = () => {
   const [showShowtimesModal, setShowShowtimesModal] = useState(false);
   const [roomShowtimes, setRoomShowtimes] = useState([]);
   const [loadingShowtimes, setLoadingShowtimes] = useState(false);
-  const [showFormModal, setShowFormModal] = useState(false);
-  const [editingRoom, setEditingRoom] = useState(null);
-  const [saving, setSaving] = useState(false);
   const [cinemas, setCinemas] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [formData, setFormData] = useState({
-    name: '',
-    cinema_id: '',
-    screen_type: '',
-    layout_config: JSON.stringify({
-      rowLetters: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
-      seatsPerRow: {
-        'A': 12, 'B': 12, 'C': 12, 'D': 12,
-        'E': 15, 'F': 15, 'G': 15, 'H': 15
-      }
-    }, null, 2)
-  });
+  const [selectedCinemaId, setSelectedCinemaId] = useState(null); // Rạp được chọn
+  const [viewMode, setViewMode] = useState('cinemas'); // 'cinemas' hoặc 'rooms'
 
   useEffect(() => {
-    fetchRooms();
     fetchCinemas();
+    // Load tất cả rooms để đếm số phòng cho mỗi rạp
+    fetchRooms();
   }, []);
+
+  useEffect(() => {
+    // Khi chọn rạp, load lại phòng của rạp đó
+    if (selectedCinemaId) {
+      fetchRooms(selectedCinemaId);
+    }
+  }, [selectedCinemaId]);
 
   // Filter rooms based on search term
   const filteredRooms = rooms.filter(room => {
@@ -49,6 +46,17 @@ const AdminRooms = () => {
     );
   });
 
+  // Filter cinemas based on search term
+  const filteredCinemas = cinemas.filter(cinema => {
+    if (!searchTerm.trim()) return true;
+    const search = searchTerm.toLowerCase();
+    return (
+      cinema.name?.toLowerCase().includes(search) ||
+      cinema.city?.toLowerCase().includes(search) ||
+      cinema.address?.toLowerCase().includes(search)
+    );
+  });
+
   const fetchCinemas = async () => {
     try {
       const data = await adminAPI.cinemas.getAll();
@@ -58,11 +66,13 @@ const AdminRooms = () => {
     }
   };
 
-  const fetchRooms = async (search = '') => {
+  const fetchRooms = async (cinemaId = null, search = '') => {
     try {
       setLoading(true);
       setError(null);
-      const params = search ? { search } : {};
+      const params = {};
+      if (cinemaId) params.cinema_id = cinemaId;
+      if (search) params.search = search;
       const data = await adminAPI.rooms.getAll(params);
       setRooms(data);
     } catch (err) {
@@ -71,6 +81,20 @@ const AdminRooms = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Khi chọn rạp, load phòng của rạp đó
+  const handleCinemaSelect = async (cinemaId) => {
+    setSelectedCinemaId(cinemaId);
+    setViewMode('rooms');
+    await fetchRooms(cinemaId);
+  };
+
+  // Quay lại danh sách rạp
+  const handleBackToCinemas = () => {
+    setSelectedCinemaId(null);
+    setViewMode('cinemas');
+    setRooms([]);
   };
 
   const loadRoomLayout = async (roomId) => {
@@ -122,10 +146,15 @@ const AdminRooms = () => {
               return middleSeats && middleSeats[rowLetter] && middleSeats[rowLetter].includes(seatNum);
             };
 
+            const rowOffset = (layout.rowOffsets || {})[rowLetter] || 0;
             return (
               <div key={rowLetter} className={`admin-seat-row ${rowHasMiddle ? 'has-middle' : ''}`}>
                 <span className="admin-row-label">{rowLetter}</span>
                 <div className="admin-seats-row">
+                  {/* Hiển thị khoảng trống ở đầu hàng nếu có rowOffsets */}
+                  {Array.from({ length: rowOffset }).map((_, idx) => (
+                    <div key={`empty-${idx}`} className="admin-seat-empty" style={{ visibility: 'hidden' }}></div>
+                  ))}
                   {Array.from({ length: numSeats }).map((_, idx) => {
                     const seatNum = numSeats - idx;
                     const isMiddle = isMiddleSeat(seatNum);
@@ -167,93 +196,19 @@ const AdminRooms = () => {
   };
 
   const handleAdd = () => {
-    setFormData({
-      name: '',
-      cinema_id: '',
-      screen_type: '',
-      layout_config: JSON.stringify({
-        rowLetters: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
-        seatsPerRow: {
-          'A': 12, 'B': 12, 'C': 12, 'D': 12,
-          'E': 15, 'F': 15, 'G': 15, 'H': 15
-        }
-      }, null, 2)
-    });
-    setEditingRoom(null);
-    setShowFormModal(true);
-  };
-
-  const handleEdit = async (room) => {
-    try {
-      setError(null);
-      const roomData = await adminAPI.rooms.getById(room.id);
-      setFormData({
-        name: roomData.name || '',
-        cinema_id: roomData.cinema_id || '',
-        screen_type: roomData.screen_type || '',
-        layout_config: roomData.layout_config 
-          ? JSON.stringify(roomData.layout_config, null, 2)
-          : JSON.stringify({
-              rowLetters: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
-              seatsPerRow: {
-                'A': 12, 'B': 12, 'C': 12, 'D': 12,
-                'E': 15, 'F': 15, 'G': 15, 'H': 15
-              }
-            }, null, 2)
-      });
-      setEditingRoom(room);
-      setShowFormModal(true);
-    } catch (err) {
-      console.error('Error fetching room:', err);
-      setError(err.message || 'Không thể tải thông tin phòng');
+    // Navigate to new room form page
+    if (selectedCinemaId) {
+      navigate(`/admin/rooms/new?cinema_id=${selectedCinemaId}`);
+    } else {
+      navigate('/admin/rooms/new');
     }
   };
 
-  const handleSave = async () => {
-    // Validation
-    if (!formData.name || !formData.cinema_id) {
-      setError('Vui lòng điền tên phòng và chọn rạp');
-      return;
-    }
-
-    // Validate JSON layout_config
-    let layoutConfig;
-    try {
-      layoutConfig = JSON.parse(formData.layout_config);
-      if (!layoutConfig.rowLetters || !layoutConfig.seatsPerRow) {
-        throw new Error('Layout config phải có rowLetters và seatsPerRow');
-      }
-    } catch (err) {
-      setError('Layout config không hợp lệ. Vui lòng kiểm tra định dạng JSON');
-      return;
-    }
-
-    try {
-      setSaving(true);
-      setError(null);
-      
-      const dataToSave = {
-        name: formData.name.trim(),
-        cinema_id: parseInt(formData.cinema_id),
-        screen_type: formData.screen_type.trim() || null,
-        layout_config: layoutConfig
-      };
-
-      if (editingRoom) {
-        await adminAPI.rooms.update(editingRoom.id, dataToSave);
-      } else {
-        await adminAPI.rooms.create(dataToSave);
-      }
-      
-      setShowFormModal(false);
-      await fetchRooms(); // Reload rooms
-    } catch (err) {
-      console.error('Error saving room:', err);
-      setError(err.message || 'Có lỗi xảy ra khi lưu phòng');
-    } finally {
-      setSaving(false);
-    }
+  const handleEdit = (room) => {
+    // Navigate to edit room form page
+    navigate(`/admin/rooms/edit/${room.id}`);
   };
+
 
   if (loading) {
     return (
@@ -287,7 +242,7 @@ const AdminRooms = () => {
             <span className="search-icon"><i className="fa-solid fa-magnifying-glass"></i></span>
             <input
               type="text"
-              placeholder="Tìm kiếm phòng..."
+              placeholder={viewMode === 'cinemas' ? 'Tìm kiếm rạp...' : 'Tìm kiếm phòng...'}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-input"
@@ -327,13 +282,84 @@ const AdminRooms = () => {
             </button>
           </div>
         )}
-        {filteredRooms.length === 0 ? (
-          <div className="admin-no-rooms">
-            <p>{searchTerm ? 'Không tìm thấy phòng nào phù hợp.' : 'Chưa có phòng nào trong hệ thống.'}</p>
+
+        {/* Hiển thị nút quay lại nếu đang xem phòng của một rạp */}
+        {viewMode === 'rooms' && selectedCinemaId && (
+          <div style={{ marginBottom: '20px' }}>
+            <button 
+              className="secondary-btn"
+              onClick={handleBackToCinemas}
+            >
+              <i className="fa-solid fa-arrow-left"></i>
+              Quay lại danh sách rạp
+            </button>
+            <div style={{ marginTop: '12px', padding: '12px', background: 'var(--admin-bg-card)', borderRadius: '8px', border: '1px solid var(--admin-border)' }}>
+              <strong>Rạp đang xem:</strong> {cinemas.find(c => c.id === selectedCinemaId)?.name || `Rạp ID: ${selectedCinemaId}`}
+            </div>
           </div>
-        ) : (
-          <div className="admin-rooms-grid">
-            {filteredRooms.map((room) => (
+        )}
+
+        {/* Hiển thị danh sách rạp phim */}
+        {viewMode === 'cinemas' && (
+          <>
+            {filteredCinemas.length === 0 ? (
+              <div className="admin-no-rooms">
+                <p>{searchTerm ? 'Không tìm thấy rạp nào phù hợp.' : 'Chưa có rạp nào trong hệ thống.'}</p>
+              </div>
+            ) : (
+              <div className="admin-rooms-grid">
+                {filteredCinemas.map((cinema) => {
+                  // Đếm số phòng của rạp này
+                  const cinemaRooms = rooms.filter(r => r.cinema_id === cinema.id);
+                  return (
+                    <div key={cinema.id} className="admin-room-card" style={{ cursor: 'pointer' }} onClick={() => handleCinemaSelect(cinema.id)}>
+                      <div className="admin-room-card-header">
+                        <h3>{cinema.name}</h3>
+                        <span className="admin-room-cinema">{cinema.city || 'Chưa có thành phố'}</span>
+                      </div>
+                      <div className="admin-room-card-body">
+                        <div className="admin-room-info">
+                          <span className="admin-room-id">Địa chỉ: {cinema.address || 'Chưa có địa chỉ'}</span>
+                          {cinema.phone_number && (
+                            <span className="admin-room-date">Điện thoại: {cinema.phone_number}</span>
+                          )}
+                        </div>
+                        <div style={{ marginTop: '12px', padding: '8px', background: 'var(--admin-bg-dark)', borderRadius: '6px' }}>
+                          <strong style={{ color: 'var(--admin-gold)' }}>Số phòng:</strong> {cinemaRooms.length} phòng
+                        </div>
+                      </div>
+                      <div className="admin-room-card-actions">
+                        <button
+                          className="primary-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleCinemaSelect(cinema.id);
+                          }}
+                        >
+                          <i className="fa-solid fa-door-open"></i> Xem phòng ({cinemaRooms.length})
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </>
+        )}
+
+        {/* Hiển thị danh sách phòng của rạp đã chọn */}
+        {viewMode === 'rooms' && (
+          <>
+            {filteredRooms.length === 0 ? (
+              <div className="admin-no-rooms">
+                <p>{searchTerm ? 'Không tìm thấy phòng nào phù hợp.' : 'Rạp này chưa có phòng nào.'}</p>
+                <button className="primary-btn" onClick={handleAdd} style={{ marginTop: '20px' }}>
+                  <i className="fa-solid fa-plus"></i> Thêm phòng mới cho rạp này
+                </button>
+              </div>
+            ) : (
+              <div className="admin-rooms-grid">
+                {filteredRooms.map((room) => (
               <div key={room.id} className="admin-room-card">
                 <div className="admin-room-card-header">
                   <h3>{room.name || `Phòng ${room.id}`}</h3>
@@ -374,7 +400,7 @@ const AdminRooms = () => {
                     </div>
                   )}
                 </div>
-                <div className="admin-room-card-actions" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                <div className="admin-room-card-actions">
                   <button
                     className="secondary-btn"
                     onClick={() => handleEdit(room)}
@@ -411,8 +437,10 @@ const AdminRooms = () => {
                   </button>
                 </div>
               </div>
-            ))}
-          </div>
+                ))}
+              </div>
+            )}
+          </>
         )}
 
         {selectedRoom && (() => {
@@ -573,104 +601,6 @@ const AdminRooms = () => {
           );
         })()}
 
-        {/* Room Form Modal */}
-        {showFormModal && (
-          <div className="modal-overlay" onClick={() => !saving && setShowFormModal(false)}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '800px', maxHeight: '90vh', overflow: 'auto' }}>
-              <div className="modal-header">
-                <h2>{editingRoom ? 'Sửa phòng chiếu' : 'Thêm phòng chiếu mới'}</h2>
-                <button 
-                  className="modal-close" 
-                  onClick={() => !saving && setShowFormModal(false)}
-                  disabled={saving}
-                >
-                  <i className="fa-solid fa-times"></i>
-                </button>
-              </div>
-              <div className="modal-body">
-                <div className="form-group">
-                  <label>Tên phòng *</label>
-                  <input
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="form-input"
-                    placeholder="VD: Phòng 1, Phòng VIP"
-                    required
-                    disabled={saving}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Rạp phim *</label>
-                  <select
-                    value={formData.cinema_id}
-                    onChange={(e) => setFormData({...formData, cinema_id: e.target.value})}
-                    className="form-input"
-                    required
-                    disabled={saving}
-                  >
-                    <option value="">-- Chọn rạp --</option>
-                    {cinemas.map(cinema => (
-                      <option key={cinema.id} value={cinema.id}>
-                        {cinema.name} - {cinema.city}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label>Loại màn hình</label>
-                  <select
-                    value={formData.screen_type}
-                    onChange={(e) => setFormData({...formData, screen_type: e.target.value})}
-                    className="form-input"
-                    disabled={saving}
-                  >
-                    <option value="">-- Chọn loại --</option>
-                    <option value="2D">2D</option>
-                    <option value="3D">3D</option>
-                    <option value="IMAX">IMAX</option>
-                    <option value="4DX">4DX</option>
-                    <option value="ScreenX">ScreenX</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label>Layout Config (JSON) *</label>
-                  <textarea
-                    value={formData.layout_config}
-                    onChange={(e) => setFormData({...formData, layout_config: e.target.value})}
-                    className="form-textarea"
-                    rows="15"
-                    style={{ fontFamily: 'monospace', fontSize: '12px' }}
-                    placeholder='{"rowLetters": ["A", "B", "C"], "seatsPerRow": {"A": 12, "B": 12, "C": 12}}'
-                    required
-                    disabled={saving}
-                  />
-                  <div style={{ marginTop: '8px', fontSize: '12px', color: '#666' }}>
-                    <strong>Format:</strong> JSON object với <code>rowLetters</code> (array) và <code>seatsPerRow</code> (object).
-                    <br />
-                    <strong>Ví dụ:</strong> {`{"rowLetters": ["A", "B", "C"], "seatsPerRow": {"A": 12, "B": 12, "C": 15}}`}
-                  </div>
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button 
-                  className="secondary-btn" 
-                  onClick={() => setShowFormModal(false)}
-                  disabled={saving}
-                >
-                  Hủy
-                </button>
-                <button 
-                  className="primary-btn" 
-                  onClick={handleSave}
-                  disabled={saving}
-                >
-                  {saving ? 'Đang lưu...' : editingRoom ? 'Cập nhật' : 'Thêm mới'}
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

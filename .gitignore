@@ -1,0 +1,11 @@
+﻿node_modules/
+dist/
+.build/
+.next/
+.cache/
+.vscode/
+.env
+.env.*
+npm-debug.log*
+yarn-error.log*
+pnpm-lock.yaml

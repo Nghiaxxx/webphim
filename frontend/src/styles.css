@@ -2812,6 +2812,34 @@ padding: 10px 0;
   direction: rtl;
 }
 
+/* Empty seat placeholder for offset */
+.seat-empty {
+  width: 40px;
+  height: 29px;
+  flex-shrink: 0;
+  direction: ltr; /* Đảm bảo không bị ảnh hưởng bởi rtl */
+}
+
+/* Spacer for row offsets in SeatPicker */
+.seats-row-offset-spacer {
+  flex-shrink: 0;
+  direction: ltr; /* Đảm bảo không bị ảnh hưởng bởi rtl */
+}
+
+@media (max-width: 768px) {
+  .seat-empty {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .seat-empty {
+    width: 28px;
+    height: 28px;
+  }
+}
+
 @media (max-width: 768px) {
   .seats-row {
     gap: 20px;
@@ -2822,30 +2850,6 @@ padding: 10px 0;
   .seats-row {
     gap: 15px;
   }
-}
-
-/* Middle Seats Overlay - Red border around middle seats */
-.middle-seats-overlay {
-  position: absolute;
-  border: 1px solid #ef4444;
-  border-radius: 4px;
-  pointer-events: none;
-  z-index: 1;
-  /* Position and size calculated to cover middle seats */
-  /* Row E starts at index 4 (0-based), Row J ends at index 9 */
-  /* Top: gap between rows (25px) * 4 (rows A-D) + row height offset */
-  top: calc(25px * 6);
-  /* Left: 100px (gap) + 30px (row label width) + offset for seat positions */
-  /* For RTL layout, seats are aligned to the right, so we need to calculate from right */
-  /* Middle seats start from seat 11/8, so we need to account for seats before them */
-  /* For row F-J (15 seats): seats 15-12 are before middle seats (11-6) = 4 seats before */
-  /* For row E (12 seats): seats 12-9 are before middle seats (8-3) = 4 seats before */
-  /* So we need: gap + label + (seats before * (seat width + gap)) */
-  left: calc(100px + 60px + 4 * (40px + 25px) - 27px);
-  /* Width: 6 seats * 40px + 5 gaps * 25px */
-  width: calc(6 * 42px + 5 * 25px + 6px);
-  /* Height: 6 rows * (seat height 29px + gap 25px) - last gap */
-  height: calc(6 * 33px + 5 * 25px + 6px);
 }
 
 @media (max-width: 768px) {
@@ -2935,6 +2939,36 @@ padding: 10px 0;
   transform: none;
 }
 
+/* Locked Seat - Orange/Red (đang được người khác chọn) */
+.seat-locked {
+  background: #f97316;
+  border-color: #ea580c;
+  color: #fff;
+  cursor: not-allowed;
+  opacity: 0.9;
+  position: relative;
+}
+
+.seat-locked::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 5px,
+    rgba(255, 255, 255, 0.1) 5px,
+    rgba(255, 255, 255, 0.1) 10px
+  );
+}
+
+.seat-locked:hover {
+  transform: none;
+}
+
 /* Seat Legend */
 .seat-legend {
   display: flex;
@@ -3019,6 +3053,11 @@ padding: 10px 0;
 .seat-legend-sample.seat-selected {
   background: #F3EA28;
   border-color: #F3EA28;
+}
+
+.seat-legend-sample.seat-locked {
+  background: #f97316;
+  border-color: #ea580c;
 }
 
 .seat-legend-sample.seat-booked {
@@ -4609,6 +4648,50 @@ padding: 10px 0;
   }
 }
 
+/* Banner: HIỆN CHƯA CÓ LỊCH CHIẾU */
+.movie-detail-no-showtime-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #F3EA28;
+  color: #1f2937;
+  padding: 20px 30px;
+  border-radius: 8px;
+  margin: 40px 0;
+  font-weight: 600;
+  font-size: 18px;
+  box-shadow: 0 4px 12px rgba(243, 234, 40, 0.3);
+}
+
+.movie-detail-no-showtime-banner i {
+  font-size: 24px;
+}
+
+@media (max-width: 768px) {
+  .movie-detail-no-showtime-banner {
+    padding: 16px 24px;
+    font-size: 16px;
+    margin: 30px 0;
+  }
+  
+  .movie-detail-no-showtime-banner i {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .movie-detail-no-showtime-banner {
+    padding: 14px 20px;
+    font-size: 14px;
+    gap: 10px;
+  }
+  
+  .movie-detail-no-showtime-banner i {
+    font-size: 18px;
+  }
+}
+
 /* Left: Poster */
 .movie-detail-poster {
   flex-shrink: 0;
@@ -5467,6 +5550,69 @@ padding: 10px 0;
 }
 
 .booking-total-amount {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .booking-total-amount {
+    font-size: 20px;
+  }
+}
+
+.booking-book-button {
+  background: #F3EA28;
+  color: #1a1a2e;
+  border: none;
+  border-radius: 8px;
+  padding: 16px 32px;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  min-width: 140px;
+}
+
+.booking-book-button:hover:not(:disabled) {
+  background: #f5ed3d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(243, 234, 40, 0.4);
+}
+
+.booking-book-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.booking-book-button:disabled {
+  background: #6b7280;
+  color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .booking-book-button {
+    padding: 14px 24px;
+    font-size: 16px;
+    min-width: 120px;
+  }
+  
+  .booking-footer-right {
+    flex-wrap: wrap;
+  }
+  
+  .booking-book-button {
+    width: 100%;
+    margin-top: 12px;
+  }
+}
+
+.booking-total-amount-old {
   font-family: 'Josefin Sans', sans-serif;
   font-size: 24px;
   font-weight: 700;
@@ -8791,13 +8937,131 @@ body:has(.popcorn-drink-sticky-footer) .popcorn-drink-main {
 }
 
 
+/* Notification Modal */
+.notification-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.notification-modal-content {
+  background: linear-gradient(135deg, #6b21a8 0%, #7c3aed 50%, #9333ea 100%);
+  border-radius: 12px;
+  padding: 40px 50px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.notification-modal-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 36px;
+  font-weight: 400;
+  color: #fff;
+  text-transform: uppercase;
+  margin: 0 0 20px 0;
+  letter-spacing: 2px;
+}
+
+.notification-modal-message {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: #fff;
+  margin: 0 0 30px 0;
+  line-height: 1.5;
+}
+
+.notification-modal-number {
+  color: #F3EA28;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.notification-modal-button {
+  background: #F3EA28;
+  color: #1a1a2e;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 40px;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  min-width: 120px;
+}
+
+.notification-modal-button:hover {
+  background: #e6d925;
+  transform: scale(1.05);
+}
+
+.notification-modal-button:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 768px) {
+  .notification-modal-content {
+    padding: 30px 30px;
+    max-width: 90%;
+  }
+
+  .notification-modal-title {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+
+  .notification-modal-message {
+    font-size: 16px;
+    margin-bottom: 24px;
+  }
+
+  .notification-modal-button {
+    padding: 12px 32px;
+    font-size: 16px;
+    min-width: 100px;
+  }
+}
+
 /* CSS cho Room 2 (Phòng 2 - Nhỏ) */
 .seat-picker-container.room-2 {
   max-width: 1000px;
 }
 
 .seat-picker-container.room-2 .seat {
-  background-color: #50c878;
+  background-color: #fff;
   width: 36px;
   height: 36px;
 }
@@ -8810,8 +9074,8 @@ body:has(.popcorn-drink-sticky-footer) .popcorn-drink-main {
 }
 
 .seat-picker-container.room-3 .seat {
-  background-color: #f39c12;
-  border: 2px solid #e67e22;
+  background-color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 /* ============================================
@@ -8832,19 +9096,17 @@ body:has(.popcorn-drink-sticky-footer) .popcorn-drink-main {
   width: 36px;
   height: 36px;
   font-size: 11px;
-  background-color: #50c878;
-  border: 1px solid #45b869;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .seat-picker-container.room-2 .seat:hover:not(:disabled) {
-  background-color: #45b869;
+  border-color: rgba(255, 255, 255, 0.6);
   transform: scale(1.05);
 }
 
 .seat-picker-container.room-2 .seat-selected {
-  background-color: #2ecc71 !important;
-  border-color: #27ae60;
-  box-shadow: 0 0 10px rgba(46, 204, 113, 0.6);
+  background-color: #F3EA28 !important;
+  border-color: #F3EA28;
 }
 
 /* ROOM 3 - PHÒNG VIP - 16 hàng, 265 ghế */
@@ -8862,27 +9124,20 @@ body:has(.popcorn-drink-sticky-footer) .popcorn-drink-main {
 }
 
 .seat-picker-container.room-3 .seat {
-  background-color: #f39c12;
-  border: 2px solid #e67e22;
-  box-shadow: 0 2px 8px rgba(243, 156, 18, 0.3);
+  background-color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .seat-picker-container.room-3 .seat:hover:not(:disabled) {
-  background-color: #e67e22;
+  border-color: rgba(255, 255, 255, 0.6);
   transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(243, 156, 18, 0.5);
 }
 
 .seat-picker-container.room-3 .seat-selected {
-  background-color: #ffd700 !important;
-  border-color: #ffed4e;
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+  background-color: #F3EA28 !important;
+  border-color: #F3EA28;
 }
 
-.seat-picker-container.room-3 .seat-middle {
-  border-color: #ffd700;
-  box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
-}
 
 /* ROOM 4 - PHÒNG 1 - STANDARD - 14 hàng, 180 ghế */
 .seat-picker-container.room-4 {
@@ -8897,17 +9152,17 @@ body:has(.popcorn-drink-sticky-footer) .popcorn-drink-main {
 }
 
 .seat-picker-container.room-4 .seat {
-  background-color: #3498db;
-  border: 1px solid #2980b9;
+  background-color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .seat-picker-container.room-4 .seat:hover:not(:disabled) {
-  background-color: #2980b9;
+  border-color: rgba(255, 255, 255, 0.6);
 }
 
 .seat-picker-container.room-4 .seat-selected {
-  background-color: #1abc9c !important;
-  border-color: #16a085;
+  background-color: #F3EA28 !important;
+  border-color: #F3EA28;
 }
 
 /* ROOM 5 - PHÒNG 2 - NHỎ - 8 hàng, 84 ghế */
@@ -8922,17 +9177,17 @@ body:has(.popcorn-drink-sticky-footer) .popcorn-drink-main {
   width: 34px;
   height: 34px;
   font-size: 10px;
-  background-color: #95a5a6;
-  border: 1px solid #7f8c8d;
+  background-color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .seat-picker-container.room-5 .seat:hover:not(:disabled) {
-  background-color: #7f8c8d;
+  border-color: rgba(255, 255, 255, 0.6);
 }
 
 .seat-picker-container.room-5 .seat-selected {
-  background-color: #e67e22 !important;
-  border-color: #d35400;
+  background-color: #F3EA28 !important;
+  border-color: #F3EA28;
 }
 
 /* ROOM 6 - PHÒNG VIP - LỚN - 16 hàng, 265 ghế */
@@ -8951,27 +9206,20 @@ body:has(.popcorn-drink-sticky-footer) .popcorn-drink-main {
 }
 
 .seat-picker-container.room-6 .seat {
-  background-color: #e74c3c;
-  border: 2px solid #c0392b;
-  box-shadow: 0 3px 10px rgba(231, 76, 60, 0.4);
+  background-color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .seat-picker-container.room-6 .seat:hover:not(:disabled) {
-  background-color: #c0392b;
-  transform: scale(1.06);
-  box-shadow: 0 5px 15px rgba(231, 76, 60, 0.6);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: scale(1.05);
 }
 
 .seat-picker-container.room-6 .seat-selected {
-  background-color: #f1c40f !important;
-  border-color: #f39c12;
-  box-shadow: 0 0 20px rgba(241, 196, 15, 0.9);
+  background-color: #F3EA28 !important;
+  border-color: #F3EA28;
 }
 
-.seat-picker-container.room-6 .seat-middle {
-  border-color: #f1c40f;
-  box-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
-}
 
 /* ROOM 7 - PHÒNG MINI - RẤT NHỎ - 5 hàng, 34 ghế */
 .seat-picker-container.room-7 {
@@ -8991,19 +9239,18 @@ body:has(.popcorn-drink-sticky-footer) .popcorn-drink-main {
   width: 30px;
   height: 30px;
   font-size: 9px;
-  background-color: #3498db;
-  border: 1px solid #2980b9;
+  background-color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .seat-picker-container.room-7 .seat:hover:not(:disabled) {
-  background-color: #2980b9;
-  transform: scale(1.1);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: scale(1.05);
 }
 
 .seat-picker-container.room-7 .seat-selected {
-  background-color: #1abc9c !important;
-  border-color: #16a085;
-  box-shadow: 0 0 8px rgba(26, 188, 156, 0.6);
+  background-color: #F3EA28 !important;
+  border-color: #F3EA28;
 }
 
 /* ROOM 8 - PHÒNG IMAX - CỰC LỚN - 18 hàng, 382 ghế */
@@ -9027,27 +9274,20 @@ body:has(.popcorn-drink-sticky-footer) .popcorn-drink-main {
   width: 50px;
   height: 50px;
   font-size: 15px;
-  background-color: #9b59b6;
-  border: 2px solid #8e44ad;
-  box-shadow: 0 0 10px rgba(155, 89, 182, 0.5);
+  background-color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .seat-picker-container.room-8 .seat:hover:not(:disabled) {
-  background-color: #8e44ad;
-  transform: scale(1.1);
-  box-shadow: 0 0 25px rgba(155, 89, 182, 0.8);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: scale(1.05);
 }
 
 .seat-picker-container.room-8 .seat-selected {
-  background-color: #e74c3c !important;
-  border-color: #c0392b;
-  box-shadow: 0 0 30px rgba(231, 76, 60, 1);
+  background-color: #F3EA28 !important;
+  border-color: #F3EA28;
 }
 
-.seat-picker-container.room-8 .seat-middle {
-  border-color: #e74c3c;
-  box-shadow: 0 0 15px rgba(231, 76, 60, 0.6);
-}
 
 /* ============================================
    RESPONSIVE DESIGN CHO TẤT CẢ PHÒNG
@@ -9404,5 +9644,473 @@ body:has(.popcorn-drink-sticky-footer) .popcorn-drink-main {
   .btn-book-ticket-search {
     font-size: 14px;
     padding: 10px 20px;
+  }
+}
+
+/* ============================================
+   CHECKOUT PAGE STYLES
+   ============================================ */
+
+.checkout-main {
+  min-height: calc(100vh - 200px);
+  background: linear-gradient(135deg, #0a0e27 0%, #16213e 100%);
+  padding: 60px 20px;
+  padding-top: 160px; /* Space for fixed header (main-header + secondary-nav) */
+  margin-top: 0;
+}
+
+@media (max-width: 900px) {
+  .checkout-main {
+    padding-top: 100px; /* Space for mobile header */
+  }
+}
+
+.checkout-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .checkout-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+
+/* Left Section - Customer Information */
+.checkout-left {
+  border-radius: 0;
+  padding: 50px 40px;
+  backdrop-filter: blur(10px);
+}
+
+.checkout-title {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+  text-align: left;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+  .checkout-title {
+    font-size: 22px;
+    margin-bottom: 30px;
+  }
+}
+
+/* Progress Steps */
+.checkout-progress {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+  position: relative;
+  padding: 0;
+  align-items: flex-start;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 2;
+  flex: 1;
+}
+
+/* Đường nối giữa các bước - chỉ nối từ bên phải circle này đến bên trái circle tiếp theo */
+.progress-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 25px;
+  left: calc(50% + 25px); /* Bắt đầu từ bên phải của circle (center + radius) */
+  width: calc(100% - 50px); /* Chiều rộng bằng khoảng cách giữa 2 circle */
+  height: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  z-index: 0;
+}
+
+.progress-step span:first-child {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(26, 26, 46, 0.9);
+  color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  border: 3px solid transparent;
+  position: relative;
+  z-index: 3; /* Circle nằm trên đường nối */
+}
+
+.progress-step.active span:first-child {
+  background: #F3EA28;
+  color: #1a1a2e;
+  border-color: #F3EA28;
+  box-shadow: 0 0 20px rgba(243, 234, 40, 0.5);
+}
+
+.progress-step span:last-child {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  max-width: 100px;
+  position: relative;
+  z-index: 3; /* Text nằm trên đường nối */
+  line-height: 1.3;
+}
+
+.progress-step.active span:last-child {
+  color: #F3EA28;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .checkout-progress {
+    padding: 0 10px;
+  }
+  
+  .progress-step span:last-child {
+    font-size: 9px;
+    max-width: 70px;
+  }
+  
+  .progress-step span:first-child {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+  
+  .checkout-progress::before {
+    top: 20px;
+  }
+}
+
+/* Form */
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-group label {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input {
+  background: #fff;
+  border: 2px solid #e5e7eb;
+  border-radius: 4px;
+  padding: 16px 18px;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 16px;
+  color: #1a1a2e;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #F3EA28;
+  box-shadow: 0 0 0 3px rgba(243, 234, 40, 0.1);
+}
+
+.form-group input::placeholder {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.form-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  cursor: pointer;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.95);
+  line-height: 1.6;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  margin-top: 2px;
+  cursor: pointer;
+  accent-color: #F3EA28;
+  flex-shrink: 0;
+}
+
+.checkout-continue-btn {
+  background: #F3EA28;
+  color: #1a1a2e;
+  border: none;
+  border-radius: 4px;
+  padding: 18px 40px;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+  letter-spacing: 1px;
+  width: 100%;
+}
+
+.checkout-continue-btn:hover:not(:disabled) {
+  background: #f5ed3d;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(243, 234, 40, 0.4);
+}
+
+.checkout-continue-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.checkout-continue-btn:disabled {
+  background: #6b7280;
+  color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Right Section - Order Summary */
+.checkout-right {
+  background: #3366CC;
+  border-radius: 0;
+  margin-top: 280px;
+  padding: 0px 35px;
+  position: relative;
+  min-height: 600px;
+}
+
+.checkout-timer {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  background: #F3EA28;
+  border-radius: 6px;
+  padding: 14px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 110px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.checkout-timer-label {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #1a1a2e;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.checkout-timer-value {
+  font-family: 'Anton', sans-serif;
+  font-size: 36px;
+  font-weight: 400;
+  color: #1a1a2e;
+  line-height: 1;
+  letter-spacing: 2px;
+}
+
+@media (max-width: 768px) {
+  .checkout-timer {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin-bottom: 30px;
+    align-self: flex-end;
+  }
+}
+
+.checkout-movie-info {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  color: #fff;
+  margin-top: 100px;
+}
+
+@media (max-width: 768px) {
+  .checkout-movie-info {
+    margin-top: 0;
+  }
+}
+
+.checkout-movie-title {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  margin: 0;
+  line-height: 1.3;
+  letter-spacing: 0.5px;
+}
+
+.checkout-movie-rating {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.checkout-cinema-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.cinema-name {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+}
+
+.cinema-address {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.checkout-showtime {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0;
+  margin-top: 4px;
+}
+
+.checkout-booking-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.95);
+  margin-top: 8px;
+}
+
+.checkout-booking-details p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.checkout-products {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.95);
+  margin-top: 12px;
+}
+
+.products-title {
+  font-weight: 600;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+.checkout-products p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.checkout-total {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 2px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.total-label {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.total-amount {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: #F3EA28;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+  .checkout-main {
+    padding: 40px 15px;
+  }
+  
+  .checkout-left,
+  .checkout-right {
+    padding: 30px 20px;
+  }
+  
+  .checkout-movie-title {
+    font-size: 18px;
+  }
+  
+  .total-amount {
+    font-size: 28px;
+  }
+  
+  .checkout-timer-value {
+    font-size: 28px;
   }
 }

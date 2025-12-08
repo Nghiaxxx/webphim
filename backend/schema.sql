@@ -16,7 +16,31 @@ CREATE TABLE IF NOT EXISTS movies (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Bảng suất chiếu
+-- Bảng rạp phim (phải tạo trước rooms)
+CREATE TABLE IF NOT EXISTS cinemas (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  address TEXT,
+  phone_number VARCHAR(20),
+  city VARCHAR(100),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Bảng phòng chiếu (phải tạo trước showtimes)
+CREATE TABLE IF NOT EXISTS rooms (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  cinema_id INT NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  screen_type VARCHAR(50) COMMENT '2D, 3D, IMAX, etc.',
+  layout_config JSON COMMENT 'Cấu hình layout ghế (rowLetters, seatsPerRow, middleSeats, etc.)',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (cinema_id) REFERENCES cinemas(id) ON DELETE CASCADE,
+  INDEX idx_cinema_id (cinema_id)
+);
+
+-- Bảng suất chiếu (phải tạo sau movies và rooms)
 CREATE TABLE IF NOT EXISTS showtimes (
   id INT AUTO_INCREMENT PRIMARY KEY,
   movie_id INT NOT NULL,
@@ -34,7 +58,7 @@ CREATE TABLE IF NOT EXISTS showtimes (
   INDEX idx_start_time (start_time)
 );
 
--- Bảng đặt vé
+-- Bảng đặt vé (tạm thời, sẽ được tạo lại sau với đầy đủ cột)
 CREATE TABLE IF NOT EXISTS bookings (
   id INT AUTO_INCREMENT PRIMARY KEY,
   showtime_id INT NOT NULL,
@@ -45,30 +69,6 @@ CREATE TABLE IF NOT EXISTS bookings (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY unique_seat (showtime_id, seat_row, seat_col),
   FOREIGN KEY (showtime_id) REFERENCES showtimes(id) ON DELETE CASCADE
-);
-
--- Bảng rạp phim
-CREATE TABLE IF NOT EXISTS cinemas (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
-  address TEXT,
-  phone_number VARCHAR(20),
-  city VARCHAR(100),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-
--- Bảng phòng chiếu
-CREATE TABLE IF NOT EXISTS rooms (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  cinema_id INT NOT NULL,
-  name VARCHAR(255) NOT NULL,
-  screen_type VARCHAR(50) COMMENT '2D, 3D, IMAX, etc.',
-  layout_config JSON COMMENT 'Cấu hình layout ghế (rowLetters, seatsPerRow, middleSeats, etc.)',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (cinema_id) REFERENCES cinemas(id) ON DELETE CASCADE,
-  INDEX idx_cinema_id (cinema_id)
 );
 
 -- Bảng sản phẩm (Bắp/Nước/Combo)
@@ -272,6 +272,22 @@ CREATE TABLE IF NOT EXISTS user_vouchers (
   INDEX idx_user_id (user_id),
   INDEX idx_voucher_id (voucher_id),
   INDEX idx_status (status)
+);
+
+-- Bảng seat_locks (Ghế đang bị lock tạm thời khi user chọn)
+CREATE TABLE IF NOT EXISTS seat_locks (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  showtime_id INT NOT NULL,
+  seat_row VARCHAR(10) NOT NULL COMMENT 'Hàng ghế (A, B, C...)',
+  seat_col INT NOT NULL COMMENT 'Cột ghế (1, 2, 3...)',
+  session_id VARCHAR(255) NOT NULL COMMENT 'Session ID để identify user',
+  expires_at TIMESTAMP NOT NULL COMMENT 'Thời gian hết hạn lock (5 phút sau khi lock)',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (showtime_id) REFERENCES showtimes(id) ON DELETE CASCADE,
+  UNIQUE KEY unique_seat_lock (showtime_id, seat_row, seat_col),
+  INDEX idx_showtime_id (showtime_id),
+  INDEX idx_session_id (session_id),
+  INDEX idx_expires_at (expires_at)
 );
 
 -- Bật lại foreign key checks

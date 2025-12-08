@@ -85,7 +85,10 @@ function MovieSlideshow({ movies, title }) {
                     >
                         {movies.map((movie) => (
                             <div key={movie.id} className="movie-slideshow-item">
-                                <MovieCard movie={movie} />
+                                <MovieCard 
+                                    movie={movie} 
+                                    onPosterClick={() => navigate(`/movie/${movie.id}`)}
+                                />
                                 <div className="movie-actions">
                                     
                                     {/* NÚT XEM TRAILER (Áp dụng hàm mở Modal) */}
@@ -99,8 +102,10 @@ function MovieSlideshow({ movies, title }) {
                                     {/* NÚT HÀNH ĐỘNG CHÍNH */}
                                     {movie.status === 'coming_soon' ? (
                                         /* PHIM SẮP CHIẾU: Style màu vàng (movie-btn) */
-                                        <button className="cssbuttons-io"><span>{t('movieSlideshow.learnMore')}</span>
-                                            
+                                        <button 
+                                            className="cssbuttons-io"
+                                            onClick={() => navigate(`/movie/${movie.id}`)}>
+                                            <span>{t('movieSlideshow.learnMore')}</span>
                                         </button>
                                     ) : (
                                         /* PHIM ĐANG CHIẾU: Style màu vàng */

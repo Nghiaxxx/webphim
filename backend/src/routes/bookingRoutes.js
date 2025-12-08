@@ -25,5 +25,15 @@ router.get('/:showtimeId/seats', asyncHandler(BookingController.getBookedSeats))
 // POST /api/bookings - tạo đơn đặt vé
 router.post('/', validateBooking, asyncHandler(BookingController.createBooking));
 
+// Seat Lock routes
+// POST /api/bookings/:showtimeId/lock-seats - lock ghế
+router.post('/:showtimeId/lock-seats', asyncHandler(BookingController.lockSeats));
+
+// DELETE /api/bookings/:showtimeId/unlock-seats - unlock ghế
+router.delete('/:showtimeId/unlock-seats', asyncHandler(BookingController.unlockSeats));
+
+// GET /api/bookings/:showtimeId/locked-seats - lấy danh sách ghế đang bị lock
+router.get('/:showtimeId/locked-seats', asyncHandler(BookingController.getLockedSeats));
+
 module.exports = router;
 

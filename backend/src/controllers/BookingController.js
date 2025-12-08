@@ -1,4 +1,5 @@
 const BookingService = require('../services/BookingService');
+const SeatLockService = require('../services/SeatLockService');
 const { HTTP_STATUS } = require('../config/constants');
 
 class BookingController {
@@ -108,6 +109,67 @@ class BookingController {
       }
       
       res.status(HTTP_STATUS.OK).json({ message: result.message });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  // Seat Lock endpoints
+  static async lockSeats(req, res, next) {
+    try {
+      const { showtimeId } = req.params;
+      const { seats, sessionId } = req.body;
+
+      if (!seats || !Array.isArray(seats) || seats.length === 0) {
+        return res.status(HTTP_STATUS.BAD_REQUEST).json({ error: 'Danh sách ghế không hợp lệ' });
+      }
+
+      if (!sessionId) {
+        return res.status(HTTP_STATUS.BAD_REQUEST).json({ error: 'Session ID là bắt buộc' });
+      }
+
+      const result = await SeatLockService.lockSeats(showtimeId, seats, sessionId);
+      
+      if (!result.success) {
+        return res.status(result.status).json(result);
+      }
+      
+      res.status(HTTP_STATUS.OK).json(result.data);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async unlockSeats(req, res, next) {
+    try {
+      const { showtimeId } = req.params;
+      const { seats, sessionId } = req.body;
+
+      if (!seats || !Array.isArray(seats)) {
+        return res.status(HTTP_STATUS.BAD_REQUEST).json({ error: 'Danh sách ghế không hợp lệ' });
+      }
+
+      if (!sessionId) {
+        return res.status(HTTP_STATUS.BAD_REQUEST).json({ error: 'Session ID là bắt buộc' });
+      }
+
+      const result = await SeatLockService.unlockSeats(showtimeId, seats, sessionId);
+      res.status(HTTP_STATUS.OK).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getLockedSeats(req, res, next) {
+    try {
+      const { showtimeId } = req.params;
+      const result = await SeatLockService.getLockedSeats(showtimeId);
+      
+      if (!result.success) {
+        return res.status(result.status).json({ error: result.message });
+      }
+      
+      res.status(HTTP_STATUS.OK).json(result.data);
     } catch (error) {
       next(error);
     }

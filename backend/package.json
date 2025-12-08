@@ -8,6 +8,8 @@
     "dev": "nodemon src/index.js",
     "setup-db": "node scripts/setup-database.js",
     "setup-db:migration": "node scripts/setup-database.js --migration",
+    "import-aiven": "node scripts/import-to-aiven.js",
+    "import-webphim-aiven": "node scripts/import-webphim-to-aiven.js",
     "cleanup-rooms": "node scripts/cleanup-rooms-without-layout.js",
     "setup-room-layouts": "node scripts/auto-setup-room-layouts.js"
   },

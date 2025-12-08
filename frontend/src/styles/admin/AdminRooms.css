@@ -86,11 +86,31 @@
 
 .admin-room-card-actions {
   margin-top: auto;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.admin-room-card-actions .primary-btn {
-  width: 100%;
+.admin-room-card-actions .primary-btn,
+.admin-room-card-actions .secondary-btn {
+  flex: 1;
+  min-width: 120px;
   justify-content: center;
+  font-size: 0.9rem;
+  padding: 0.65rem 1rem;
+}
+
+.admin-room-card-actions .secondary-btn {
+  flex: 1;
+  min-width: 100px;
+}
+
+/* Đảm bảo các nút có style đúng */
+.admin-room-card-actions button {
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 /* Showtimes Display */
@@ -322,21 +342,24 @@
 .admin-seats-container {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  align-items: center;
+  gap: 25px;
+  align-items: flex-start;
   margin-bottom: 2rem;
   padding: 1rem;
   background: var(--admin-bg-dark);
   border-radius: 12px;
   border: 1px solid var(--admin-border);
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .admin-seat-row {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 100px;
   width: 100%;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .admin-row-label {
@@ -353,25 +376,50 @@
 
 .admin-seats-row {
   display: flex;
-  gap: 0.5rem;
+  gap: 25px;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-end;
+  direction: rtl;
+  flex: 1;
+}
+
+/* Empty seat placeholder for offset */
+.admin-seat-empty {
+  width: 40px;
+  height: 29px;
+  flex-shrink: 0;
+  direction: ltr; /* Đảm bảo không bị ảnh hưởng bởi rtl */
+}
+
+@media (max-width: 768px) {
+  .admin-seat-empty {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-seat-empty {
+    width: 28px;
+    height: 28px;
+  }
 }
 
 .admin-seat {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 29px;
   background: var(--admin-bg-card);
-  border: 2px solid var(--admin-border);
-  border-radius: 6px;
+  border: 1px solid var(--admin-border);
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.75rem;
+  font-size: 11px;
   color: var(--admin-text-secondary);
   font-weight: 600;
   transition: all 0.2s ease;
   cursor: default;
+  direction: ltr; /* Ensure text displays correctly */
 }
 
 .admin-seat:hover {
@@ -481,7 +529,17 @@
   }
 
   .admin-seat-row {
-    gap: 0.5rem;
+    gap: 60px;
+  }
+  
+  .admin-seats-row {
+    gap: 20px;
+  }
+  
+  .admin-seat {
+    width: 32px;
+    height: 32px;
+    font-size: 9px;
   }
 
   .admin-seat-row.has-middle::after {
@@ -513,13 +571,17 @@
   }
 
   .admin-seat {
-    width: 24px;
-    height: 24px;
-    font-size: 0.6rem;
+    width: 28px;
+    height: 28px;
+    font-size: 8px;
   }
 
   .admin-seats-row {
-    gap: 0.25rem;
+    gap: 15px;
+  }
+  
+  .admin-seat-row {
+    gap: 40px;
   }
 }
 

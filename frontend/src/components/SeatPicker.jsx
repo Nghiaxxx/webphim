@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { publicAPI } from '../services/api';
 
-function SeatPicker({ showtime, selectedSeats, onChangeSelected, onBack, hideBackButton = false }) {
+function SeatPicker({ showtime, selectedSeats, onChangeSelected, onBack, hideBackButton = false, maxSeats = 0, lockedSeats = [] }) {
   const [bookedSeats, setBookedSeats] = useState([]);
   const [loadingSeats, setLoadingSeats] = useState(false);
   const [roomLayout, setRoomLayout] = useState(null); // Không dùng DEFAULT_LAYOUT nữa
@@ -141,6 +141,15 @@ function SeatPicker({ showtime, selectedSeats, onChangeSelected, onBack, hideBac
     });
   };
 
+  const isLocked = (rowLetter, seatNum) => {
+    return lockedSeats.some((lock) => {
+      const lockRow = typeof lock.seat_row === 'string' 
+        ? lock.seat_row.toUpperCase() 
+        : roomLayout.rowLetters[lock.seat_row - 1];
+      return lockRow === rowLetter && lock.seat_col === seatNum;
+    });
+  };
+
   const isSelected = (rowLetter, seatNum) => {
     return selectedSeats.some((s) => {
       const row = typeof s.row === 'string' 
@@ -152,7 +161,13 @@ function SeatPicker({ showtime, selectedSeats, onChangeSelected, onBack, hideBac
 
   const toggleSeat = (rowLetter, seatNum) => {
     if (isBooked(rowLetter, seatNum)) return;
+    if (isLocked(rowLetter, seatNum)) {
+      // Không cho phép chọn ghế đang bị lock bởi người khác
+      return;
+    }
+    
     if (isSelected(rowLetter, seatNum)) {
+      // Deselect seat
       onChangeSelected(selectedSeats.filter((s) => {
         const row = typeof s.row === 'string' 
           ? s.row.toUpperCase() 
@@ -160,6 +175,7 @@ function SeatPicker({ showtime, selectedSeats, onChangeSelected, onBack, hideBac
         return !(row === rowLetter && s.col === seatNum);
       }));
     } else {
+      // Try to select seat - parent will validate
       onChangeSelected([...selectedSeats, { row: rowLetter, col: seatNum }]);
     }
   };
@@ -253,14 +269,20 @@ function SeatPicker({ showtime, selectedSeats, onChangeSelected, onBack, hideBac
           return (
             <div key={rowLetter} className={`seats-row-wrapper ${rowHasMiddle ? 'has-middle-seats' : ''}`}>
               <div className="row-label">{rowLetter}</div>
-              <div className="seats-row">
-                {Array.from({ length: numSeats }).map((_, idx) => {
+              <div style={{ 
+                display: 'flex', 
+                flex: 1,
+                paddingLeft: `${((roomLayout.rowOffsets || {})[rowLetter] || 0) * 65}px`
+              }}>
+                <div className="seats-row">
+                  {Array.from({ length: numSeats }).map((_, idx) => {
                   // Seat numbers from right to left (A12 on right, A01 on left)
                   // Reverse the order so higher numbers appear on right
                   const seatNum = numSeats - idx;
                   const seatId = `${rowLetter}${String(seatNum).padStart(2, '0')}`;
                   const booked = isBooked(rowLetter, seatNum);
                   const selected = isSelected(rowLetter, seatNum);
+                  const locked = isLocked(rowLetter, seatNum);
                   const isMiddle = isMiddleSeat(rowLetter, seatNum);
                   
                   return (
@@ -270,17 +292,20 @@ function SeatPicker({ showtime, selectedSeats, onChangeSelected, onBack, hideBac
                         'seat',
                         booked ? 'seat-booked' : '',
                         selected ? 'seat-selected' : '',
+                        locked ? 'seat-locked' : '',
                         isMiddle ? 'seat-middle' : ''
                       ]
                         .filter(Boolean)
                         .join(' ')}
                       onClick={() => toggleSeat(rowLetter, seatNum)}
-                      disabled={booked}
+                      disabled={booked || locked}
+                      title={locked ? 'Ghế đang được người khác chọn' : ''}
                     >
                       {seatId}
                     </button>
                   );
-                })}
+                  })}
+                </div>
               </div>
             </div>
           );
@@ -299,6 +324,10 @@ function SeatPicker({ showtime, selectedSeats, onChangeSelected, onBack, hideBac
         <div className="legend-item">
           <span className="seat-legend-sample seat-selected"></span>
           <span className="legend-text">Ghế chọn</span>
+        </div>
+        <div className="legend-item">
+          <span className="seat-legend-sample seat-locked"></span>
+          <span className="legend-text">Ghế đang được chọn</span>
         </div>
         <div className="legend-item">
           <span className="seat-legend-sample seat-booked"></span>

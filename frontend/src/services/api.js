@@ -30,7 +30,18 @@ async function apiRequest(endpoint, options = {}) {
     let data;
     
     if (contentType && contentType.includes('application/json')) {
-      data = await response.json();
+      const text = await response.text();
+      // Check if response is empty
+      if (!text || text.trim() === '') {
+        // Return empty array for GET requests, empty object for others
+        return response.method === 'GET' ? [] : {};
+      }
+      try {
+        data = JSON.parse(text);
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError, 'Response text:', text);
+        throw new Error('Server trả về dữ liệu không hợp lệ. Vui lòng kiểm tra lại.');
+      }
     } else {
       // If not JSON, try to get text
       const text = await response.text();
@@ -39,13 +50,21 @@ async function apiRequest(endpoint, options = {}) {
     }
 
     if (!response.ok) {
-      throw new Error(data.error || 'Có lỗi xảy ra');
+      // Create error with data attached for error responses
+      const error = new Error(data.error || data.message || 'Có lỗi xảy ra');
+      error.status = response.status;
+      error.data = data; // Attach full response data
+      throw error;
     }
 
     return data;
   } catch (error) {
     // Don't throw error if request was aborted
     if (error.name === 'AbortError') {
+      throw error;
+    }
+    // If it's already our custom error with data, keep it
+    if (error.data) {
       throw error;
     }
     // If it's already our custom error, throw it
@@ -161,6 +180,23 @@ export const publicAPI = {
   bookings: {
     getSeats: (showtimeId) => apiRequest(`/bookings/${showtimeId}/seats`),
     create: (data) => apiRequest('/bookings', { method: 'POST', body: JSON.stringify(data) }),
+    lockSeats: (showtimeId, seats, sessionId) => apiRequest(`/bookings/${showtimeId}/lock-seats`, {
+      method: 'POST',
+      body: JSON.stringify({ seats, sessionId })
+    }),
+    unlockSeats: (showtimeId, seats, sessionId) => apiRequest(`/bookings/${showtimeId}/unlock-seats`, {
+      method: 'DELETE',
+      body: JSON.stringify({ seats, sessionId })
+    }),
+    getLockedSeats: async (showtimeId) => {
+      try {
+        return await apiRequest(`/bookings/${showtimeId}/locked-seats`);
+      } catch (error) {
+        // Nếu lỗi hoặc empty, trả về mảng rỗng
+        console.warn('Error getting locked seats, returning empty array:', error);
+        return [];
+      }
+    },
   },
 
   // Products

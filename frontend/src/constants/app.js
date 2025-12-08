@@ -1,11 +1,39 @@
 // App Constants
+// Auto-detect API URL based on environment
+const getApiBaseUrl = () => {
+  // If explicitly set in env, use it (always prefer this)
+  if (import.meta.env.VITE_API_URL) {
+    const url = import.meta.env.VITE_API_URL;
+    // Ensure HTTPS in production
+    if (import.meta.env.PROD && url.startsWith('http://')) {
+      console.warn('⚠️ API URL is using HTTP in production. Please use HTTPS for security.');
+      return url.replace('http://', 'https://');
+    }
+    return url;
+  }
+  
+  // In production, use HTTPS with current hostname
+  if (import.meta.env.PROD) {
+    // Force HTTPS in production
+    const protocol = 'https:';
+    const hostname = window.location.hostname;
+    // If backend is on same domain, use /api
+    // Otherwise, you MUST set VITE_API_URL environment variable
+    return `${protocol}//${hostname}/api`;
+  }
+  
+  // Development fallback
+  return 'http://localhost:4000/api';
+};
+
 export const APP_CONFIG = {
   // API Configuration
-  API_BASE_URL: import.meta.env.VITE_API_URL || 'http://localhost:4000/api',
+  API_BASE_URL: getApiBaseUrl(),
   
   // Booking Configuration
   BOOKING: {
     TIMER_SECONDS: 300, // 5 minutes
+    MAX_SEATS: 8, // Maximum number of seats that can be selected
     TICKET_PRICES: {
       ADULT_SINGLE: 45000,
       STUDENT_SINGLE: 45000,

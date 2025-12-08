@@ -15,6 +15,7 @@ const CinemaSelection = lazy(() => import('./pages/CinemaSelection'));
 const CinemaDetail = lazy(() => import('./pages/CinemaDetail'));
 const RoomViewer = lazy(() => import('./components/RoomViewer'));
 const Search = lazy(() => import('./pages/Search'));
+const Checkout = lazy(() => import('./pages/Checkout'));
 
 // Admin routes - Lazy loaded (only load when admin accesses)
 const AdminLogin = lazy(() => import('./pages/admin/AdminLogin'));
@@ -23,6 +24,7 @@ const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
 const AdminMovies = lazy(() => import('./pages/admin/AdminMovies'));
 const AdminBookings = lazy(() => import('./pages/admin/AdminBookings'));
 const AdminRooms = lazy(() => import('./pages/admin/AdminRooms'));
+const AdminRoomForm = lazy(() => import('./pages/admin/AdminRoomForm'));
 const AdminShowtimes = lazy(() => import('./pages/admin/AdminShowtimes'));
 const AdminPromotions = lazy(() => import('./pages/admin/AdminPromotions'));
 const AdminCinemas = lazy(() => import('./pages/admin/AdminCinemas'));
@@ -45,6 +47,7 @@ export const clientRoutes = [
   { path: '/search', element: <Search /> },
   { path: '/login', element: <Login /> },
   { path: '/rooms', element: <RoomViewer /> },
+  { path: '/checkout', element: <Checkout /> },
   { path: '/profile', element: <Profile /> },
   // Profile routes - Profile component will normalize URLs with trailing slash
   { path: '/account/account-profile', element: <Profile /> },
@@ -68,6 +71,8 @@ export const adminRoutes = [
       { path: 'promotions', element: <AdminPromotions /> },
       { path: 'cinemas', element: <AdminCinemas /> },
       { path: 'rooms', element: <AdminRooms /> },
+      { path: 'rooms/new', element: <AdminRoomForm /> },
+      { path: 'rooms/edit/:id', element: <AdminRoomForm /> },
       { path: 'products', element: <AdminProducts /> },
       { path: 'revenue', element: <AdminRevenue /> },
       { path: 'users', element: <AdminUsers /> },

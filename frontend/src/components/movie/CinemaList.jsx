@@ -44,6 +44,7 @@ const CinemaList = ({
       
       if (selectedCity && !cinemasInCity.has(cinemaId)) {
         return;
+
       }
       
       if (cinemaId && cinemaName) {
@@ -201,4 +202,5 @@ const CinemaList = ({
 };
 
 export default CinemaList;
+
 

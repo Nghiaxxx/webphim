@@ -17,16 +17,24 @@ const formatReleaseDate = (dateString) => {
   }
 };
 
-function MovieCard({ movie, active, onClick }) {
+function MovieCard({ movie, active, onClick, onPosterClick }) {
   const formattedDate = useMemo(() => {
     return movie.release_date ? formatReleaseDate(movie.release_date) : null;
   }, [movie.release_date]);
+  
+  const handlePosterClick = (e) => {
+    e.stopPropagation(); // Ngăn chặn event bubble lên onClick của movie-card
+    if (onPosterClick) {
+      onPosterClick();
+    }
+  };
+  
   return (
     <div
       className={`movie-card ${active ? 'movie-card-active' : ''}`}
       onClick={onClick}
     >
-      <div className="movie-poster">
+      <div className="movie-poster" onClick={handlePosterClick} style={{ cursor: onPosterClick ? 'pointer' : 'default' }}>
       
         {movie.rating && (
           <div className="movie-badges">
